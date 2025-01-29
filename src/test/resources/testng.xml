@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="spribe" verbose="1">
+    <test name="player" parallel="methods" thread-count="3">
+        <packages>
+            <package name="spribe.api.tests.*"/>
+        </packages>
+    </test>
+</suite>
