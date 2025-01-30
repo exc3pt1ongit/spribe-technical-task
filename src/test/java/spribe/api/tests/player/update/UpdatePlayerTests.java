@@ -1,5 +1,6 @@
 package spribe.api.tests.player.update;
 
+import io.qameta.allure.Issue;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpStatus;
@@ -41,6 +42,7 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
                 updateRequestDto, "json.schemas/player/UpdatePlayerPositiveSchema.json");
     }
 
+    @Issue("ISSUE-002")
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, NEGATIVE, SCHEMA},
             dataProvider = "rolesWithNotAvailablePermissionsToMutate", dataProviderClass = UpdatePlayerDataProvider.class)
     public void playerPermissionsNotAvailableTest(PlayerRole role) {
@@ -51,6 +53,7 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
                 updateRequestDto, HttpStatus.SC_FORBIDDEN);
     }
 
+    @Issue("ISSUE-004")
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, POSITIVE, SMOKE})
     public void updatePlayerWithValidFullMutatedValuesTest() {
         PlayerResponseDto supervisor = findSupervisor();
@@ -62,6 +65,7 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
         assertPlayerUpdateResponse(updatedPlayer, updateRequestDto, createdPlayer);
     }
 
+    @Issue("ISSUE-005")
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, POSITIVE},
             dataProvider = "updatePlayerAvailableMutations", dataProviderClass = UpdatePlayerDataProvider.class)
     public void updatePlayerWithValidMutateValueTest(PlayerUpdateRequestDto updateRequestDto) {
@@ -73,6 +77,7 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
         assertPlayerUpdateResponse(updatedPlayer, updateRequestDto, createdPlayer);
     }
 
+    @Issue("ISSUE-003")
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, NEGATIVE, SMOKE})
     public void updatePlayerWithNonGrantedUserRoleTest() {
         PlayerResponseDto nonGrantedPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
