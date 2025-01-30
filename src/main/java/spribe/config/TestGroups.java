@@ -5,7 +5,9 @@ public class TestGroups {
 
     public static final String POSITIVE = "POSITIVE";
     public static final String NEGATIVE = "NEGATIVE";
-
+    public static final String SCHEMA = "SCHEMA";
+    public static final String SMOKE = "SMOKE";
+    
     public static final String PLAYER = "PLAYER";
     public static final String PLAYER_GET = "PLAYER_GET";
     public static final String PLAYER_GET_ALL = "PLAYER_GET_ALL";
