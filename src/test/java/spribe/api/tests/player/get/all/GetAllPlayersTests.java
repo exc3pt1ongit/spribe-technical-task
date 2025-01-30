@@ -1,6 +1,6 @@
 package spribe.api.tests.player.get.all;
 
-import io.qameta.allure.Step;
+import io.qameta.allure.Issue;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpStatus;
@@ -20,7 +20,14 @@ import static spribe.config.TestGroups.*;
 @Log4j2
 public class GetAllPlayersTests extends BasePlayerTest {
 
-    @Step("Get players")
+    @Issue("ISSUE-006")
+    @Test(groups = {ALL, PLAYER, PLAYER_GET_ALL, POSITIVE, SMOKE})
+    public void getAllPlayersSchemaTest() {
+        validateSchema(new GetAllPlayersRequest(), null,
+                "json.schemas/player/GetAllPlayersPositiveSchema.json");
+    }
+
+    
     @Test(groups = {ALL, PLAYER, PLAYER_GET_ALL, POSITIVE})
     public void getAllPlayersTest() {
         PlayerCreateResponseDto createdPlayer = createPlayer();

@@ -10,6 +10,7 @@ import spribe.api.player.dto.PlayerResponseDto;
 import spribe.api.player.dto.create.PlayerCreateRequestDto;
 import spribe.api.player.requests.CreatePlayerRequest;
 import spribe.api.tests.player.BasePlayerTest;
+import spribe.config.GlobalDataContainer;
 import spribe.utils.ResponsiveMapper;
 import spribe.utils.models.PlayerRole;
 
@@ -26,7 +27,8 @@ public class CreatePlayerTests extends BasePlayerTest {
         Response response = new CreatePlayerRequest(supervisor.getLogin()).call(playerCreateRequestDto);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "player not created successfully");
         PlayerResponseDto playerResponseDto = ResponsiveMapper.map(response, PlayerResponseDto.class);
-
+        GlobalDataContainer.getInstance().addAffectedPlayerId(playerResponseDto.getId());
+        
         log.info("assert player after create");
 
         SoftAssert softAssert = new SoftAssert();

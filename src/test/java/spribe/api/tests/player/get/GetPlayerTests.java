@@ -19,9 +19,17 @@ import static spribe.config.TestGroups.*;
 @Log4j2
 public class GetPlayerTests extends BasePlayerTest {
 
-    @Step("Get player with valid id")
-    @Test(groups = {ALL, PLAYER, PLAYER_GET, POSITIVE})
-    public void getPlayerByIdTest() {
+    @Test(groups = {ALL, PLAYER, PLAYER_GET, POSITIVE, SMOKE})
+    public void getPlayerByPlayerIdSchemaTest() {
+        PlayerCreateResponseDto createdPlayer = createPlayer();
+        PlayerGetByPlayerIdRequestDto playerGetByIdRequestDto = PlayerGetByPlayerIdRequestDto.builder()
+                .playerId(createdPlayer.getId().toString()).build();
+        validateSchema(new GetPlayerByPlayerIdRequest(), playerGetByIdRequestDto, 
+                "json.schemas/player/GetPlayerByPlayerIdPositiveSchema.json");
+    }
+
+    @Test(groups = {ALL, PLAYER, PLAYER_GET, POSITIVE, SMOKE})
+    public void getPlayerByPlayerIdTest() {
         PlayerCreateResponseDto createdPlayer = createPlayer();
         PlayerGetByPlayerIdRequestDto playerGetByIdRequestDto = PlayerGetByPlayerIdRequestDto.builder()
                 .playerId(createdPlayer.getId().toString()).build();
@@ -44,7 +52,6 @@ public class GetPlayerTests extends BasePlayerTest {
         softAssert.assertAll();
     }
 
-    @Step("Get player with invalid id (number)")
     @Test(groups = {ALL, PLAYER, PLAYER_GET, NEGATIVE},
             dataProvider = "invalidIdNumberParameters", dataProviderClass = GetPlayerDataProvider.class)
     public void getNonExistentPlayerByIdTest(Long id) {
