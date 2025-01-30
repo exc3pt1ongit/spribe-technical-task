@@ -1,11 +1,12 @@
-package spribe.utils.models;
+package spribe.data;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import spribe.utils.models.PlayerRole;
 
 @Getter
 @RequiredArgsConstructor
-public enum DatabaseGrantedPlayers {
+public enum GrantedPlayers {
     SUPERVISOR(1, "supervisor", PlayerRole.SUPERVISOR),
     ADMIN(2, "admin", PlayerRole.ADMIN);
 

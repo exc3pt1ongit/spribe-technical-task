@@ -7,5 +7,5 @@ import spribe.api.RequestDto;
 @Data
 @Builder
 public class PlayerGetByPlayerIdRequestDto implements RequestDto {
-    private Integer playerId;
+    private String playerId;
 }

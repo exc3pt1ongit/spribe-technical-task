@@ -5,7 +5,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
-import static spribe.config.Config.SERVICE_URL;
+import static spribe.config.EnvConfig.ENV_SERVICE_URL;
 
 public abstract class AbstractBaseRequest implements Request {
 
@@ -20,7 +20,7 @@ public abstract class AbstractBaseRequest implements Request {
     }
 
     public AbstractBaseRequest(String endpoint) {
-        this(SERVICE_URL.getValue(), endpoint);
+        this(ENV_SERVICE_URL.getValue(), endpoint);
     }
 
     private RequestSpecification buildBaseRequestSpecification() {

@@ -6,8 +6,9 @@ import spribe.api.ValueRetriever;
 
 @Getter
 @RequiredArgsConstructor
-public enum Config implements ValueRetriever {
-    SERVICE_URL("http://3.68.165.45");
+public enum EnvConfig implements ValueRetriever {
+    ENV_SERVICE_URL("http://3.68.165.45"),
+    ENV_SERVICE_TIMEOUT("20000");
 
     private final String value;
 }

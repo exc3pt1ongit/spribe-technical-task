@@ -2,6 +2,11 @@
 
 <suite name="spribe" verbose="1">
     <test name="player" parallel="methods" thread-count="3">
+        <groups>
+            <run>
+                <include name="ALL"/>
+            </run>
+        </groups>
         <packages>
             <package name="spribe.api.tests.*"/>
         </packages>
