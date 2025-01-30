@@ -21,10 +21,8 @@ public class DeletePlayerTests extends BasePlayerTest implements CheckPlayerGran
         PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
         PlayerDeleteRequestDto deleteRequestDto = PlayerDeleteRequestDto.builder()
                 .playerId(createdPlayer.getId()).build();
-        new DeletePlayerRequest(player.getLogin())
-                .call(deleteRequestDto)
-                .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
+        assertValidStatusCode(new DeletePlayerRequest(player.getLogin()),
+                deleteRequestDto, HttpStatus.SC_NO_CONTENT);
     }
 
     @Test(groups = {ALL, PLAYER, PLAYER_DELETE, POSITIVE},
@@ -34,10 +32,8 @@ public class DeletePlayerTests extends BasePlayerTest implements CheckPlayerGran
         PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
         PlayerDeleteRequestDto deleteRequestDto = PlayerDeleteRequestDto.builder()
                 .playerId(createdPlayer.getId()).build();
-        new DeletePlayerRequest(player.getLogin())
-                .call(deleteRequestDto)
-                .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
+        assertValidStatusCode(new DeletePlayerRequest(player.getLogin()),
+                deleteRequestDto, HttpStatus.SC_NO_CONTENT);
     }
 
     @Issue("ISSUE-001")
@@ -48,9 +44,7 @@ public class DeletePlayerTests extends BasePlayerTest implements CheckPlayerGran
         PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
         PlayerDeleteRequestDto deleteRequestDto = PlayerDeleteRequestDto.builder()
                 .playerId(createdPlayer.getId()).build();
-        new DeletePlayerRequest(player.getLogin())
-                .call(deleteRequestDto)
-                .then()
-                .statusCode(HttpStatus.SC_FORBIDDEN);
+        assertValidStatusCode(new DeletePlayerRequest(player.getLogin()),
+                deleteRequestDto, HttpStatus.SC_FORBIDDEN);
     }
 }

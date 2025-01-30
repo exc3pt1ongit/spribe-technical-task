@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "age": {
+      "type": "integer"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "id": {
+      "type": "integer"
+    },
+    "login": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "screenName": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "age",
+    "gender",
+    "id",
+    "login",
+    "password",
+    "role",
+    "screenName"
+  ]
+}

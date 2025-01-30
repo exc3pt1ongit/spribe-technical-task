@@ -1,5 +1,6 @@
 package spribe.api.tests.player.update;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Issue;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
@@ -49,7 +50,7 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
         PlayerResponseDto player = fromCreateResponseDto(createPlayer(role));
         PlayerResponseDto createdPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
         PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
-        validateStatusCodeAndContentType(new UpdatePlayerByIdRequest(player.getLogin(), createdPlayer.getId()),
+        assertValidStatusCodeAndContentType(new UpdatePlayerByIdRequest(player.getLogin(), createdPlayer.getId()),
                 updateRequestDto, HttpStatus.SC_FORBIDDEN);
     }
 
@@ -83,23 +84,23 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
         PlayerResponseDto nonGrantedPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
         PlayerResponseDto createdPlayer = fromCreateResponseDto(createPlayer(PlayerRole.ADMIN));
         PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
-        new UpdatePlayerByIdRequest(nonGrantedPlayer.getLogin(), createdPlayer.getId())
-                .call(updateRequestDto)
-                .then()
-                .statusCode(HttpStatus.SC_FORBIDDEN);
+        assertValidStatusCodeAndContentType(new UpdatePlayerByIdRequest(nonGrantedPlayer.getLogin(), createdPlayer.getId()),
+                updateRequestDto, HttpStatus.SC_FORBIDDEN);
     }
 
     private void assertPlayerUpdateResponse(PlayerUpdateResponseDto actual,
                                             PlayerUpdateRequestDto updated,
                                             PlayerResponseDto created) {
-        SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(actual.getId(), created.getId(), "id after update isn't equals");
-        softAssert.assertEquals(actual.getAge(), updated.getAge(), "age after update isn't equals");
-        softAssert.assertEquals(actual.getGender(), updated.getGender(), "gender after update isn't equals");
-        softAssert.assertEquals(actual.getRole(), updated.getRole(), "role after update isn't equals");
-        softAssert.assertEquals(actual.getLogin(), created.getLogin(), "login after update isn't equals");
-        softAssert.assertEquals(actual.getScreenName(), created.getScreenName(), "screenName after update isn't equals");
-        softAssert.assertAll();
+        Allure.step("Assert player fields after update", () -> {
+            SoftAssert softAssert = new SoftAssert();
+            softAssert.assertEquals(actual.getId(), created.getId(), "id after update isn't equals");
+            softAssert.assertEquals(actual.getAge(), updated.getAge(), "age after update isn't equals");
+            softAssert.assertEquals(actual.getGender(), updated.getGender(), "gender after update isn't equals");
+            softAssert.assertEquals(actual.getRole(), updated.getRole(), "role after update isn't equals");
+            softAssert.assertEquals(actual.getLogin(), created.getLogin(), "login after update isn't equals");
+            softAssert.assertEquals(actual.getScreenName(), created.getScreenName(), "screenName after update isn't equals");
+            softAssert.assertAll();
+        });
     }
 
     private PlayerUpdateRequestDto buildFullUpdateRequestDto(PlayerResponseDto createdPlayer) {

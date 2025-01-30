@@ -1,5 +1,6 @@
 package spribe.api.tests;
 
+import io.qameta.allure.Allure;
 import io.restassured.http.ContentType;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpStatus;
@@ -37,26 +38,40 @@ public abstract class AbstractBaseTest {
                                   Integer code,
                                   ContentType type,
                                   String path) {
-        request.call(requestDto)
-                .then()
-                .statusCode(code)
-                .contentType(type)
-                .body(matchesJsonSchemaInClasspath(path));
+        Allure.step(String.format("Validate JSON schema in path '%s'", path), () -> {
+            request.call(requestDto)
+                    .then()
+                    .statusCode(code)
+                    .contentType(type)
+                    .body(matchesJsonSchemaInClasspath(path));
+        });
     }
 
-    protected void validateStatusCodeAndContentType(Request request,
-                                                    RequestDto requestDto,
-                                                    Integer code,
-                                                    ContentType type) {
-        request.call(requestDto)
-                .then()
-                .statusCode(code)
-                .contentType(type);
+    protected void assertValidStatusCodeAndContentType(Request request,
+                                                       RequestDto requestDto,
+                                                       Integer code,
+                                                       ContentType type) {
+        Allure.step("Assert valid status code and content type", () -> {
+            request.call(requestDto)
+                    .then()
+                    .statusCode(code)
+                    .contentType(type);
+        });
     }
 
-    protected void validateStatusCodeAndContentType(Request request,
-                                                    RequestDto requestDto,
-                                                    Integer code) {
-        validateStatusCodeAndContentType(request, requestDto, code, ContentType.JSON);
+    protected void assertValidStatusCodeAndContentType(Request request,
+                                                       RequestDto requestDto,
+                                                       Integer code) {
+        assertValidStatusCodeAndContentType(request, requestDto, code, ContentType.JSON);
+    }
+
+    protected void assertValidStatusCode(Request request,
+                                         RequestDto requestDto,
+                                         Integer code) {
+        Allure.step("Assert valid status code", () -> {
+            request.call(requestDto)
+                    .then()
+                    .statusCode(code);
+        });
     }
 }
