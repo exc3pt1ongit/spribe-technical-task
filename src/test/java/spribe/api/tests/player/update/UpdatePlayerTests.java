@@ -10,7 +10,7 @@ import org.testng.asserts.SoftAssert;
 import spribe.api.player.dto.PlayerResponseDto;
 import spribe.api.player.dto.create.PlayerCreateResponseDto;
 import spribe.api.player.dto.update.PlayerUpdateRequestDto;
-import spribe.api.player.requests.PlayerUpdateRequest;
+import spribe.api.player.requests.UpdatePlayerByIdRequest;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.utils.ApiResponseMapper;
 import spribe.utils.models.PlayerGender;
@@ -22,7 +22,7 @@ import static spribe.config.TestGroups.*;
 public class UpdatePlayerTests extends BasePlayerTest {
 
     @Step("Update player with granted permissions")
-    @Test(groups = {ALL, PLAYER, PLAYER_DELETE, POSITIVE})
+    @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, POSITIVE})
     public void updatePlayerWithValidValuesTest() {
         PlayerResponseDto supervisor = findSupervisor();
         PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
@@ -34,7 +34,7 @@ public class UpdatePlayerTests extends BasePlayerTest {
                 .password("upd_" + createdPlayer.getPassword())
                 .screenName("upd_" + createdPlayer.getScreenName())
                 .build();
-        Response response = new PlayerUpdateRequest(supervisor.getLogin(), createdPlayer.getId()).call(updateRequestDto);
+        Response response = new UpdatePlayerByIdRequest(supervisor.getLogin(), createdPlayer.getId()).call(updateRequestDto);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "player is not updated successfully");
         PlayerResponseDto updatedPlayer = ApiResponseMapper.map(response, PlayerResponseDto.class);
 
@@ -52,7 +52,7 @@ public class UpdatePlayerTests extends BasePlayerTest {
     }
 
     @Step("Update player with non-granted permissions")
-    @Test(groups = {ALL, PLAYER, PLAYER_DELETE, NEGATIVE})
+    @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, NEGATIVE})
     public void updatePlayerWithNonGrantedUserRoleTest() {
         PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
         PlayerUpdateRequestDto updateRequestDto = PlayerUpdateRequestDto.builder()
@@ -63,7 +63,7 @@ public class UpdatePlayerTests extends BasePlayerTest {
                 .password("upd_" + createdPlayer.getPassword())
                 .screenName("upd_" + createdPlayer.getScreenName())
                 .build();
-        new PlayerUpdateRequest(createdPlayer.getLogin(), createdPlayer.getId())
+        new UpdatePlayerByIdRequest(createdPlayer.getLogin(), createdPlayer.getId())
                 .call(updateRequestDto)
                 .then()
                 .statusCode(HttpStatus.SC_FORBIDDEN);

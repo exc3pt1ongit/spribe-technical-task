@@ -1,6 +1,6 @@
 package spribe.api.tests.player;
 
-import io.qameta.allure.Step;
+import io.qameta.allure.Allure;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpStatus;
@@ -10,8 +10,8 @@ import spribe.api.player.dto.create.PlayerCreateRequestDto;
 import spribe.api.player.dto.create.PlayerCreateResponseDto;
 import spribe.api.player.dto.get.PlayerGetByPlayerIdRequestDto;
 import spribe.api.player.dto.get.all.PlayerItemResponseDto;
-import spribe.api.player.requests.PlayerCreateRequest;
-import spribe.api.player.requests.PlayerGetByPlayerIdRequest;
+import spribe.api.player.requests.CreatePlayerRequest;
+import spribe.api.player.requests.GetPlayerByPlayerIdRequest;
 import spribe.api.tests.AbstractBaseTest;
 import spribe.data.entity.GrantedPlayer;
 import spribe.utils.ApiResponseMapper;
@@ -26,25 +26,26 @@ import java.util.function.Predicate;
 @Log4j2
 public class BasePlayerTest extends AbstractBaseTest {
 
-    @Step("Find supervisor")
     protected PlayerResponseDto findSupervisor() {
-        log.info("find supervisor");
-        GrantedPlayer supervisor = grantedPlayerDataSource.getPlayerByRole(PlayerRole.SUPERVISOR);
+        return Allure.step("Find supervisor", () -> {
+            log.info("find supervisor");
+            GrantedPlayer supervisor = grantedPlayerDataSource.getPlayerByRole(PlayerRole.SUPERVISOR);
 
-        PlayerGetByPlayerIdRequestDto request = PlayerGetByPlayerIdRequestDto.builder()
-                .playerId(supervisor.getId().toString())
-                .build();
-        Response supervisorResponse = new PlayerGetByPlayerIdRequest().call(request);
+            PlayerGetByPlayerIdRequestDto request = PlayerGetByPlayerIdRequestDto.builder()
+                    .playerId(supervisor.getId().toString())
+                    .build();
+            Response supervisorResponse = new GetPlayerByPlayerIdRequest().call(request);
 
-        return ApiResponseMapper.map(supervisorResponse, PlayerResponseDto.class);
+            return ApiResponseMapper.map(supervisorResponse, PlayerResponseDto.class);
+        });
     }
 
     protected PlayerItemResponseDto findPlayer(List<PlayerItemResponseDto> players, Predicate<PlayerItemResponseDto> predicate) {
-        return players
+        return Allure.step("Find player", () -> players
                 .stream()
                 .filter(predicate)
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("No player found by predicate"));
+                .orElseThrow(() -> new NoSuchElementException("No player found by predicate")));
     }
 
     protected PlayerCreateResponseDto createPlayer() {
@@ -52,25 +53,29 @@ public class BasePlayerTest extends AbstractBaseTest {
     }
 
     protected PlayerCreateResponseDto createPlayer(PlayerRole role) {
-        PlayerCreateRequestDto createPlayerRequestDto = buildPlayerCreateRequestDto(role, Boolean.FALSE);
-        PlayerResponseDto supervisor = findSupervisor();
-        Response response = new PlayerCreateRequest(supervisor.getLogin()).call(createPlayerRequestDto);
-        Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "status code isn't OK");
-        return ApiResponseMapper.map(response, PlayerCreateResponseDto.class);
+        return Allure.step("Create player", () -> {
+            PlayerCreateRequestDto createPlayerRequestDto = buildPlayerCreateRequestDto(role, Boolean.FALSE);
+            PlayerResponseDto supervisor = findSupervisor();
+            Response response = new CreatePlayerRequest(supervisor.getLogin()).call(createPlayerRequestDto);
+            Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "status code isn't OK");
+            return ApiResponseMapper.map(response, PlayerCreateResponseDto.class);
+        });
     }
 
     protected PlayerCreateRequestDto buildPlayerCreateRequestDto(PlayerRole role, Boolean withPassword) {
-        String uniqueIdentifier = UUID.randomUUID().toString();
-        PlayerCreateRequestDto playerToCreate = PlayerCreateRequestDto.builder()
-                .age(18)
-                .login("testLogin_" + uniqueIdentifier)
-                .password("testPassword_" + uniqueIdentifier)
-                .screenName("testScreenName_" + uniqueIdentifier)
-                .role(role.getValue())
-                .gender(PlayerGender.FEMALE.getValue())
-                .build();
-        if (withPassword)
-            playerToCreate.setPassword("testPassword_" + uniqueIdentifier);
-        return playerToCreate;
+        return Allure.step("Build player create request dto", () -> {
+            String uniqueIdentifier = UUID.randomUUID().toString();
+            PlayerCreateRequestDto playerToCreate = PlayerCreateRequestDto.builder()
+                    .age(18)
+                    .login("testLogin_" + uniqueIdentifier)
+                    .password("testPassword_" + uniqueIdentifier)
+                    .screenName("testScreenName_" + uniqueIdentifier)
+                    .role(role.getValue())
+                    .gender(PlayerGender.FEMALE.getValue())
+                    .build();
+            if (withPassword)
+                playerToCreate.setPassword("testPassword_" + uniqueIdentifier);
+            return playerToCreate;
+        });
     }
 }

@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import spribe.api.player.dto.PlayerResponseDto;
 import spribe.api.player.dto.create.PlayerCreateRequestDto;
-import spribe.api.player.requests.PlayerCreateRequest;
+import spribe.api.player.requests.CreatePlayerRequest;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.utils.ApiResponseMapper;
 import spribe.utils.models.PlayerRole;
@@ -25,7 +25,7 @@ public class CreatePlayerTests extends BasePlayerTest {
         PlayerResponseDto supervisor = findSupervisor();
         PlayerCreateRequestDto playerCreateRequestDto = buildPlayerCreateRequestDto(PlayerRole.USER, Boolean.TRUE);
 
-        Response response = new PlayerCreateRequest(supervisor.getLogin()).call(playerCreateRequestDto);
+        Response response = new CreatePlayerRequest(supervisor.getLogin()).call(playerCreateRequestDto);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "player not created successfully");
         PlayerResponseDto playerResponseDto = ApiResponseMapper.map(response, PlayerResponseDto.class);
 
@@ -48,7 +48,7 @@ public class CreatePlayerTests extends BasePlayerTest {
         PlayerResponseDto supervisor = findSupervisor();
         PlayerCreateRequestDto playerRequestDto = buildPlayerCreateRequestDto(PlayerRole.USER, Boolean.TRUE);
         playerRequestDto.setAge(age);
-        new PlayerCreateRequest(supervisor.getLogin())
+        new CreatePlayerRequest(supervisor.getLogin())
                 .call(playerRequestDto)
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);

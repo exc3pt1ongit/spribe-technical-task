@@ -5,7 +5,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 import spribe.api.player.dto.create.PlayerCreateResponseDto;
 import spribe.api.player.dto.delete.PlayerDeleteRequestDto;
-import spribe.api.player.requests.PlayerDeleteRequest;
+import spribe.api.player.requests.DeletePlayerRequest;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.data.GrantedPlayers;
 import spribe.utils.models.PlayerRole;
@@ -21,7 +21,7 @@ public class DeletePlayerTests extends BasePlayerTest {
         PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
         PlayerDeleteRequestDto deleteRequestDto = PlayerDeleteRequestDto.builder()
                 .playerId(createdPlayer.getId()).build();
-        new PlayerDeleteRequest(player.getLogin())
+        new DeletePlayerRequest(player.getLogin())
                 .call(deleteRequestDto)
                 .then()
                 .statusCode(HttpStatus.SC_NO_CONTENT);
@@ -33,7 +33,7 @@ public class DeletePlayerTests extends BasePlayerTest {
         PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
         PlayerDeleteRequestDto deleteRequestDto = PlayerDeleteRequestDto.builder()
                 .playerId(createdPlayer.getId()).build();
-        new PlayerDeleteRequest(createdPlayer.getLogin())
+        new DeletePlayerRequest(createdPlayer.getLogin())
                 .call(deleteRequestDto)
                 .then()
                 .statusCode(HttpStatus.SC_FORBIDDEN);

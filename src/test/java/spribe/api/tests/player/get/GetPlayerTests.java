@@ -10,7 +10,7 @@ import org.testng.asserts.SoftAssert;
 import spribe.api.player.dto.create.PlayerCreateResponseDto;
 import spribe.api.player.dto.get.PlayerGetByPlayerIdRequestDto;
 import spribe.api.player.dto.get.PlayerGetByPlayerIdResponseDto;
-import spribe.api.player.requests.PlayerGetByPlayerIdRequest;
+import spribe.api.player.requests.GetPlayerByPlayerIdRequest;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.utils.ApiResponseMapper;
 
@@ -25,12 +25,12 @@ public class GetPlayerTests extends BasePlayerTest {
         PlayerCreateResponseDto createdPlayer = createPlayer();
         PlayerGetByPlayerIdRequestDto playerGetByIdRequestDto = PlayerGetByPlayerIdRequestDto.builder()
                 .playerId(createdPlayer.getId().toString()).build();
-        Response response = new PlayerGetByPlayerIdRequest().call(playerGetByIdRequestDto);
+        Response response = new GetPlayerByPlayerIdRequest().call(playerGetByIdRequestDto);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "status code isn't OK");
         PlayerGetByPlayerIdResponseDto playerResponseById = ApiResponseMapper.map(response, PlayerGetByPlayerIdResponseDto.class);
 
         log.info("get player with valid id");
-        
+
         SoftAssert softAssert = new SoftAssert();
 
         softAssert.assertEquals(playerResponseById.getAge(), createdPlayer.getAge(), "age isn't equals");
@@ -50,7 +50,7 @@ public class GetPlayerTests extends BasePlayerTest {
     public void getNonExistentPlayerByIdTest(Long id) {
         PlayerGetByPlayerIdRequestDto playerGetByIdRequestDto = PlayerGetByPlayerIdRequestDto.builder()
                 .playerId(id.toString()).build();
-        new PlayerGetByPlayerIdRequest().call(playerGetByIdRequestDto)
+        new GetPlayerByPlayerIdRequest().call(playerGetByIdRequestDto)
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
     }
@@ -61,7 +61,7 @@ public class GetPlayerTests extends BasePlayerTest {
     public void getPlayerByNotValidPlayerIdTest(String id) {
         PlayerGetByPlayerIdRequestDto playerGetByIdRequestDto = PlayerGetByPlayerIdRequestDto.builder()
                 .playerId(id).build();
-        new PlayerGetByPlayerIdRequest().call(playerGetByIdRequestDto)
+        new GetPlayerByPlayerIdRequest().call(playerGetByIdRequestDto)
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
