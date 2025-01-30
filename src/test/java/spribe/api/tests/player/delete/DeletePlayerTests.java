@@ -1,5 +1,6 @@
 package spribe.api.tests.player.delete;
 
+import io.qameta.allure.Issue;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 import spribe.api.player.dto.PlayerResponseDto;
@@ -39,6 +40,7 @@ public class DeletePlayerTests extends BasePlayerTest implements CheckPlayerGran
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
+    @Issue("ISSUE-001")
     @Test(groups = {ALL, PLAYER, PLAYER_DELETE, NEGATIVE},
             dataProvider = "rolesWithNotAvailablePermissionsToMutate", dataProviderClass = DeletePlayerDataProvider.class)
     public void playerPermissionsNotAvailableTest(PlayerRole role) {

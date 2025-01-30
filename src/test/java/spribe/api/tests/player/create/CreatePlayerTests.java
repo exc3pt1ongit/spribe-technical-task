@@ -1,6 +1,5 @@
 package spribe.api.tests.player.create;
 
-import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpStatus;
@@ -19,7 +18,6 @@ import static spribe.config.TestGroups.*;
 @Log4j2
 public class CreatePlayerTests extends BasePlayerTest {
 
-    @Step("Create player")
     @Test(groups = {ALL, PLAYER, PLAYER_CREATE, POSITIVE})
     public void createPlayerTest() {
         PlayerResponseDto supervisor = findSupervisor();
@@ -41,7 +39,6 @@ public class CreatePlayerTests extends BasePlayerTest {
         softAssert.assertAll();
     }
 
-    @Step("Create with invalid age")
     @Test(groups = {ALL, PLAYER, PLAYER_CREATE, NEGATIVE},
             dataProvider = "invalidAgeParameters", dataProviderClass = CreatePlayerDataProvider.class)
     public void createPlayerWithInvalidAgeTest(Integer age) {
