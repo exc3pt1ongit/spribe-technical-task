@@ -1,8 +1,10 @@
 package spribe.api.player.dto;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class PlayerResponseDto {
     private Integer age;
     private String gender;

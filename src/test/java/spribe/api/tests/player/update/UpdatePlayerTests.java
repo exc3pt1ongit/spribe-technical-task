@@ -7,37 +7,45 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import spribe.api.player.dto.PlayerResponseDto;
-import spribe.api.player.dto.create.PlayerCreateResponseDto;
 import spribe.api.player.dto.update.PlayerUpdateRequestDto;
 import spribe.api.player.dto.update.PlayerUpdateResponseDto;
 import spribe.api.player.requests.UpdatePlayerByIdRequest;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.api.tests.player.CheckPlayerGrantedPermissionsTests;
-import spribe.utils.ApiResponseMapper;
+import spribe.utils.ResponsiveMapper;
 import spribe.utils.models.PlayerGender;
 import spribe.utils.models.PlayerRole;
 
 import static spribe.config.TestGroups.*;
+import static spribe.utils.PlayerMapper.fromCreateResponseDto;
 
 @Log4j2
 public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGrantedPermissionsTests {
 
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, POSITIVE, SCHEMA, SMOKE})
     public void updatePlayerSchemaTest() {
-        updatePlayerCheckJsonSchema(PlayerRole.SUPERVISOR);
+        PlayerResponseDto supervisor = findSupervisor();
+        PlayerResponseDto createdPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
+        PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
+        validateSchema(new UpdatePlayerByIdRequest(supervisor.getLogin(), createdPlayer.getId()),
+                updateRequestDto, "json.schemas/player/UpdatePlayerPositiveSchema.json");
     }
 
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, POSITIVE, SCHEMA},
             dataProvider = "rolesWithAvailablePermissionsToMutate", dataProviderClass = UpdatePlayerDataProvider.class)
-    public void playerPermissionsAvailableSchemaTest(PlayerRole role) {
-        updatePlayerCheckJsonSchema(role);
+    public void playerPermissionsAvailableTest(PlayerRole role) {
+        PlayerResponseDto player = fromCreateResponseDto(createPlayer(role));
+        PlayerResponseDto createdPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
+        PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
+        validateSchema(new UpdatePlayerByIdRequest(player.getLogin(), createdPlayer.getId()),
+                updateRequestDto, "json.schemas/player/UpdatePlayerPositiveSchema.json");
     }
 
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, NEGATIVE, SCHEMA},
             dataProvider = "rolesWithNotAvailablePermissionsToMutate", dataProviderClass = UpdatePlayerDataProvider.class)
-    public void playerPermissionsNotAvailableSchemaTest(PlayerRole role) {
-        PlayerCreateResponseDto player = createPlayer(role);
-        PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
+    public void playerPermissionsNotAvailableTest(PlayerRole role) {
+        PlayerResponseDto player = fromCreateResponseDto(createPlayer(role));
+        PlayerResponseDto createdPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
         PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
         validateStatusCodeAndContentType(new UpdatePlayerByIdRequest(player.getLogin(), createdPlayer.getId()),
                 updateRequestDto, HttpStatus.SC_FORBIDDEN);
@@ -46,11 +54,11 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, POSITIVE, SMOKE})
     public void updatePlayerWithValidFullMutatedValuesTest() {
         PlayerResponseDto supervisor = findSupervisor();
-        PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
+        PlayerResponseDto createdPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
         PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
         Response response = new UpdatePlayerByIdRequest(supervisor.getLogin(), createdPlayer.getId()).call(updateRequestDto);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "player is not updated successfully");
-        PlayerUpdateResponseDto updatedPlayer = ApiResponseMapper.map(response, PlayerUpdateResponseDto.class);
+        PlayerUpdateResponseDto updatedPlayer = ResponsiveMapper.map(response, PlayerUpdateResponseDto.class);
         assertPlayerUpdateResponse(updatedPlayer, updateRequestDto, createdPlayer);
     }
 
@@ -58,17 +66,17 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
             dataProvider = "updatePlayerAvailableMutations", dataProviderClass = UpdatePlayerDataProvider.class)
     public void updatePlayerWithValidMutateValueTest(PlayerUpdateRequestDto updateRequestDto) {
         PlayerResponseDto supervisor = findSupervisor();
-        PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
+        PlayerResponseDto createdPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
         Response response = new UpdatePlayerByIdRequest(supervisor.getLogin(), createdPlayer.getId()).call(updateRequestDto);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "player is not updated successfully");
-        PlayerUpdateResponseDto updatedPlayer = ApiResponseMapper.map(response, PlayerUpdateResponseDto.class);
+        PlayerUpdateResponseDto updatedPlayer = ResponsiveMapper.map(response, PlayerUpdateResponseDto.class);
         assertPlayerUpdateResponse(updatedPlayer, updateRequestDto, createdPlayer);
     }
 
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, NEGATIVE, SMOKE})
     public void updatePlayerWithNonGrantedUserRoleTest() {
-        PlayerCreateResponseDto nonGrantedPlayer = createPlayer(PlayerRole.USER);
-        PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.ADMIN);
+        PlayerResponseDto nonGrantedPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
+        PlayerResponseDto createdPlayer = fromCreateResponseDto(createPlayer(PlayerRole.ADMIN));
         PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
         new UpdatePlayerByIdRequest(nonGrantedPlayer.getLogin(), createdPlayer.getId())
                 .call(updateRequestDto)
@@ -76,17 +84,9 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
                 .statusCode(HttpStatus.SC_FORBIDDEN);
     }
 
-    private void updatePlayerCheckJsonSchema(PlayerRole role) {
-        PlayerCreateResponseDto player = createPlayer(role);
-        PlayerCreateResponseDto createdPlayer = createPlayer(PlayerRole.USER);
-        PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
-        validateSchema(new UpdatePlayerByIdRequest(player.getLogin(), createdPlayer.getId()),
-                updateRequestDto, "json.schemas/player/UpdatePlayerPositiveSchema.json");
-    }
-
     private void assertPlayerUpdateResponse(PlayerUpdateResponseDto actual,
                                             PlayerUpdateRequestDto updated,
-                                            PlayerCreateResponseDto created) {
+                                            PlayerResponseDto created) {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(actual.getId(), created.getId(), "id after update isn't equals");
         softAssert.assertEquals(actual.getAge(), updated.getAge(), "age after update isn't equals");
@@ -97,7 +97,7 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
         softAssert.assertAll();
     }
 
-    private PlayerUpdateRequestDto buildFullUpdateRequestDto(PlayerCreateResponseDto createdPlayer) {
+    private PlayerUpdateRequestDto buildFullUpdateRequestDto(PlayerResponseDto createdPlayer) {
         return PlayerUpdateRequestDto.builder()
                 .age(19)
                 .gender(PlayerGender.MALE.getValue())

@@ -4,7 +4,7 @@ import spribe.utils.models.PlayerRole;
 
 public interface CheckPlayerGrantedPermissionsTests {
 
-    void playerPermissionsAvailableSchemaTest(PlayerRole role);
+    void playerPermissionsAvailableTest(PlayerRole role);
 
-    void playerPermissionsNotAvailableSchemaTest(PlayerRole role);
+    void playerPermissionsNotAvailableTest(PlayerRole role);
 }

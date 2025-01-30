@@ -14,7 +14,7 @@ import spribe.api.player.requests.CreatePlayerRequest;
 import spribe.api.player.requests.GetPlayerByPlayerIdRequest;
 import spribe.api.tests.AbstractBaseTest;
 import spribe.data.entity.GrantedPlayer;
-import spribe.utils.ApiResponseMapper;
+import spribe.utils.ResponsiveMapper;
 import spribe.utils.models.PlayerGender;
 import spribe.utils.models.PlayerRole;
 
@@ -36,7 +36,7 @@ public class BasePlayerTest extends AbstractBaseTest {
                     .build();
             Response supervisorResponse = new GetPlayerByPlayerIdRequest().call(request);
 
-            return ApiResponseMapper.map(supervisorResponse, PlayerResponseDto.class);
+            return ResponsiveMapper.map(supervisorResponse, PlayerResponseDto.class);
         });
     }
 
@@ -58,7 +58,7 @@ public class BasePlayerTest extends AbstractBaseTest {
             PlayerResponseDto supervisor = findSupervisor();
             Response response = new CreatePlayerRequest(supervisor.getLogin()).call(createPlayerRequestDto);
             Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "status code isn't OK");
-            return ApiResponseMapper.map(response, PlayerCreateResponseDto.class);
+            return ResponsiveMapper.map(response, PlayerCreateResponseDto.class);
         });
     }
 

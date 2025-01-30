@@ -11,7 +11,7 @@ import spribe.api.player.dto.PlayerResponseDto;
 import spribe.api.player.dto.create.PlayerCreateRequestDto;
 import spribe.api.player.requests.CreatePlayerRequest;
 import spribe.api.tests.player.BasePlayerTest;
-import spribe.utils.ApiResponseMapper;
+import spribe.utils.ResponsiveMapper;
 import spribe.utils.models.PlayerRole;
 
 import static spribe.config.TestGroups.*;
@@ -27,7 +27,7 @@ public class CreatePlayerTests extends BasePlayerTest {
 
         Response response = new CreatePlayerRequest(supervisor.getLogin()).call(playerCreateRequestDto);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "player not created successfully");
-        PlayerResponseDto playerResponseDto = ApiResponseMapper.map(response, PlayerResponseDto.class);
+        PlayerResponseDto playerResponseDto = ResponsiveMapper.map(response, PlayerResponseDto.class);
 
         log.info("assert player after create");
 

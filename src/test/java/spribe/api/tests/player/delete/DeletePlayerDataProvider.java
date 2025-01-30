@@ -1,16 +1,23 @@
 package spribe.api.tests.player.delete;
 
 import org.testng.annotations.DataProvider;
-import spribe.data.GrantedPlayers;
+import spribe.api.tests.player.BasePlayerGrantedPermissionsDataProvider;
+import spribe.utils.models.PlayerRole;
 
-import java.util.Arrays;
-import java.util.Iterator;
+public class DeletePlayerDataProvider extends BasePlayerGrantedPermissionsDataProvider {
+    @DataProvider(name = "rolesWithAvailablePermissionsToMutate")
+    @Override
+    public Object[][] rolesWithAvailablePermissionsToMutate() {
+        return new Object[][]{
+                {PlayerRole.ADMIN}
+        };
+    }
 
-public class DeletePlayerDataProvider {
-
-    @DataProvider(name = "grantedPlayersList")
-    private Iterator<GrantedPlayers> grantedPlayersList() {
-        return Arrays.stream(GrantedPlayers.values())
-                .iterator();
+    @DataProvider(name = "rolesWithNotAvailablePermissionsToMutate")
+    @Override
+    public Object[][] rolesWithNotAvailablePermissionsToMutate() {
+        return new Object[][]{
+                {PlayerRole.USER}
+        };
     }
 }

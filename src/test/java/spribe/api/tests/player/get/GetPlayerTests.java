@@ -12,7 +12,7 @@ import spribe.api.player.dto.get.PlayerGetByPlayerIdRequestDto;
 import spribe.api.player.dto.get.PlayerGetByPlayerIdResponseDto;
 import spribe.api.player.requests.GetPlayerByPlayerIdRequest;
 import spribe.api.tests.player.BasePlayerTest;
-import spribe.utils.ApiResponseMapper;
+import spribe.utils.ResponsiveMapper;
 
 import static spribe.config.TestGroups.*;
 
@@ -27,7 +27,7 @@ public class GetPlayerTests extends BasePlayerTest {
                 .playerId(createdPlayer.getId().toString()).build();
         Response response = new GetPlayerByPlayerIdRequest().call(playerGetByIdRequestDto);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "status code isn't OK");
-        PlayerGetByPlayerIdResponseDto playerResponseById = ApiResponseMapper.map(response, PlayerGetByPlayerIdResponseDto.class);
+        PlayerGetByPlayerIdResponseDto playerResponseById = ResponsiveMapper.map(response, PlayerGetByPlayerIdResponseDto.class);
 
         log.info("get player with valid id");
 
