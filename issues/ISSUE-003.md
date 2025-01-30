@@ -1,4 +1,4 @@
-# Issue #0003
+# Issue #003
 
 **Title:** User Role Access Violation: Unauthorized Update of Admin User
 

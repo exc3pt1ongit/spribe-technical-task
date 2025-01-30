@@ -1,4 +1,4 @@
-# Issue #0002
+# Issue #002
 
 **Title:** User Role Access Violation: Unauthorized Update of Another User
 
