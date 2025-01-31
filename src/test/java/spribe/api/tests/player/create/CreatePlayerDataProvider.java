@@ -2,7 +2,7 @@ package spribe.api.tests.player.create;
 
 import org.testng.annotations.DataProvider;
 import spribe.api.tests.player.BasePlayerGrantedPermissionsDataProvider;
-import spribe.helpers.models.PlayerRole;
+import spribe.data.models.PlayerRole;
 
 public class CreatePlayerDataProvider extends BasePlayerGrantedPermissionsDataProvider {
     

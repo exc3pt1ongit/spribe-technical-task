@@ -11,13 +11,13 @@ import spribe.data.GrantedPlayerDataSource;
 import spribe.data.GrantedPlayerDataSourceImpl;
 import spribe.data.fetch.EnumGrantedPlayerFetcher;
 import spribe.data.fetch.GrantedPlayerFetcher;
-import spribe.listeners.ResponsiveListener;
+import spribe.listeners.ResponsiveExecutionListener;
 import spribe.listeners.ResponsiveSuiteListener;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 @Log4j2
-@Listeners({ResponsiveListener.class, ResponsiveSuiteListener.class})
+@Listeners({ResponsiveExecutionListener.class, ResponsiveSuiteListener.class})
 public abstract class AbstractBaseTest {
 
     protected final GrantedPlayerFetcher grantedPlayerFetcher;

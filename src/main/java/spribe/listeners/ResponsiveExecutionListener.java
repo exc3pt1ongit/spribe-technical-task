@@ -11,26 +11,15 @@ import spribe.api.player.requests.DeletePlayerRequest;
 import spribe.config.EnvironmentConfig;
 import spribe.config.ResponsiveDataContainer;
 import spribe.data.GrantedPlayers;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import spribe.helpers.AllureHelper;
 
 @Log4j2
-public class ResponsiveListener implements IExecutionListener {
-
-    private static final String ENVIRONMENT_PROPERTIES_FILE = "environment.properties";
-    private static final String SOURCE_PROPERTIES_PATH = "src/main/resources/";
-    private static final String DESTINATION_PROPERTIES_PATH = "target/allure-results/";
+public class ResponsiveExecutionListener implements IExecutionListener {
 
     @Override
     public void onExecutionStart() {
-        Allure.step("Pre conditions", () -> {
-            copyPropertiesFile();
-            serviceAvailabilityCheck();
-        });
+        AllureHelper.configAllureEnvironment();
+        serviceAvailabilityCheck();
     }
 
     @Override
@@ -42,19 +31,6 @@ public class ResponsiveListener implements IExecutionListener {
                     new DeletePlayerRequest(GrantedPlayers.SUPERVISOR.getLogin())
                             .call(deleteRequestDto);
                 }));
-    }
-
-    private void copyPropertiesFile() {
-        Allure.step("Copy properties file", () -> {
-            try {
-                Path sourcePath = new File(SOURCE_PROPERTIES_PATH + ENVIRONMENT_PROPERTIES_FILE).toPath();
-                Path destinationPath = new File(DESTINATION_PROPERTIES_PATH + ENVIRONMENT_PROPERTIES_FILE).toPath();
-                Files.createDirectories(destinationPath.getParent());
-                Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                log.error(e);
-            }
-        });
     }
 
     private void serviceAvailabilityCheck() {

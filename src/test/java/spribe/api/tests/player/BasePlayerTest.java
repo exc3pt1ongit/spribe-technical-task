@@ -15,9 +15,9 @@ import spribe.api.player.requests.GetPlayerByPlayerIdRequest;
 import spribe.api.tests.AbstractBaseTest;
 import spribe.config.ResponsiveDataContainer;
 import spribe.data.entity.GrantedPlayer;
+import spribe.data.models.PlayerGender;
+import spribe.data.models.PlayerRole;
 import spribe.helpers.ResponsiveMapper;
-import spribe.helpers.models.PlayerGender;
-import spribe.helpers.models.PlayerRole;
 
 import java.util.List;
 import java.util.NoSuchElementException;

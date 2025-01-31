@@ -1,7 +1,7 @@
 package spribe.data;
 
 import spribe.data.entity.GrantedPlayer;
-import spribe.helpers.models.PlayerRole;
+import spribe.data.models.PlayerRole;
 
 import java.util.List;
 

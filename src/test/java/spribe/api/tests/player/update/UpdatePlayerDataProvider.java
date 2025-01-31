@@ -3,8 +3,8 @@ package spribe.api.tests.player.update;
 import org.testng.annotations.DataProvider;
 import spribe.api.player.dto.update.PlayerUpdateRequestDto;
 import spribe.api.tests.player.BasePlayerGrantedPermissionsDataProvider;
-import spribe.helpers.models.PlayerGender;
-import spribe.helpers.models.PlayerRole;
+import spribe.data.models.PlayerGender;
+import spribe.data.models.PlayerRole;
 
 import java.util.UUID;
 

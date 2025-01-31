@@ -1,4 +1,4 @@
-package spribe.helpers.models;
+package spribe.data.models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

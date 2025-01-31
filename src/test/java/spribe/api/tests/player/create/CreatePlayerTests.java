@@ -15,7 +15,7 @@ import spribe.api.tests.player.BasePlayerTest;
 import spribe.api.tests.player.CheckPlayerGrantedPermissionsTests;
 import spribe.config.ResponsiveDataContainer;
 import spribe.helpers.ResponsiveMapper;
-import spribe.helpers.models.PlayerRole;
+import spribe.data.models.PlayerRole;
 
 import static spribe.config.TestGroups.*;
 import static spribe.helpers.PlayerMapper.fromCreateResponseDto;

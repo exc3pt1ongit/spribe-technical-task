@@ -1,6 +1,6 @@
 <suite name="spribe">
     <listeners>
-        <listener class-name="spribe.listeners.ResponsiveListener"/>
+        <listener class-name="spribe.listeners.ResponsiveExecutionListener"/>
         <listener class-name="spribe.listeners.ResponsiveSuiteListener"/>
     </listeners>
 

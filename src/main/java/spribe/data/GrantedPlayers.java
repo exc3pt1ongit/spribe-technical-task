@@ -2,7 +2,7 @@ package spribe.data;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import spribe.helpers.models.PlayerRole;
+import spribe.data.models.PlayerRole;
 
 @Getter
 @RequiredArgsConstructor

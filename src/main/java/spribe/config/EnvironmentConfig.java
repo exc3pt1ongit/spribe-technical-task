@@ -6,6 +6,9 @@ import lombok.extern.log4j.Log4j2;
 import spribe.api.ValueRetriever;
 import spribe.helpers.ValidationHelper;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import static spribe.config.TestGroups.ALL;
 
 @Log4j2
@@ -29,6 +32,11 @@ public enum EnvironmentConfig implements ValueRetriever {
                 System.getProperty(key) : defaultValue;
         log.info("Config [{}]: Using value '{}'", key, result);
         return result;
+    }
+
+    public static Map<String, String> getConfigMap() {
+        return java.util.Arrays.stream(EnvironmentConfig.values())
+                .collect(Collectors.toMap(EnvironmentConfig::getKey, EnvironmentConfig::getValue));
     }
 
     public String getValue() {

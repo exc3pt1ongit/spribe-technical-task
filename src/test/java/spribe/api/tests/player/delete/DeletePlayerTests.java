@@ -9,7 +9,7 @@ import spribe.api.player.dto.delete.PlayerDeleteRequestDto;
 import spribe.api.player.requests.DeletePlayerRequest;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.api.tests.player.CheckPlayerGrantedPermissionsTests;
-import spribe.helpers.models.PlayerRole;
+import spribe.data.models.PlayerRole;
 
 import static spribe.config.TestGroups.*;
 
