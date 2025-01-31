@@ -1,4 +1,4 @@
-package spribe.utils;
+package spribe.helpers;
 
 import io.qameta.allure.Allure;
 import io.restassured.response.Response;

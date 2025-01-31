@@ -12,7 +12,7 @@ import spribe.api.player.dto.create.PlayerCreateResponseDto;
 import spribe.api.player.dto.get.all.PlayerItemResponseDto;
 import spribe.api.player.requests.GetAllPlayersRequest;
 import spribe.api.tests.player.BasePlayerTest;
-import spribe.utils.ResponsiveMapper;
+import spribe.helpers.ResponsiveMapper;
 
 import java.util.List;
 

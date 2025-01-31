@@ -13,12 +13,12 @@ import spribe.api.player.dto.create.PlayerCreateRequestDto;
 import spribe.api.player.requests.CreatePlayerRequest;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.api.tests.player.CheckPlayerGrantedPermissionsTests;
-import spribe.config.GlobalDataContainer;
-import spribe.utils.ResponsiveMapper;
-import spribe.utils.models.PlayerRole;
+import spribe.config.ResponsiveDataContainer;
+import spribe.helpers.ResponsiveMapper;
+import spribe.helpers.models.PlayerRole;
 
 import static spribe.config.TestGroups.*;
-import static spribe.utils.PlayerMapper.fromCreateResponseDto;
+import static spribe.helpers.PlayerMapper.fromCreateResponseDto;
 
 @Log4j2
 public class CreatePlayerTests extends BasePlayerTest implements CheckPlayerGrantedPermissionsTests {
@@ -61,7 +61,7 @@ public class CreatePlayerTests extends BasePlayerTest implements CheckPlayerGran
         Response response = new CreatePlayerRequest(supervisor.getLogin()).call(playerCreateRequestDto);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "player not created successfully");
         PlayerResponseDto playerResponseDto = ResponsiveMapper.map(response, PlayerResponseDto.class);
-        GlobalDataContainer.getInstance().addAffectedPlayerId(playerResponseDto.getId());
+        ResponsiveDataContainer.getInstance().addAffectedPlayerId(playerResponseDto.getId());
 
         Allure.step("Assert player fields after create", () -> {
             SoftAssert softAssert = new SoftAssert();

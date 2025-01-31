@@ -9,7 +9,7 @@ import org.testng.IExecutionListener;
 import spribe.api.player.dto.delete.PlayerDeleteRequestDto;
 import spribe.api.player.requests.DeletePlayerRequest;
 import spribe.config.EnvironmentConfig;
-import spribe.config.GlobalDataContainer;
+import spribe.config.ResponsiveDataContainer;
 import spribe.data.GrantedPlayers;
 
 import java.io.File;
@@ -35,7 +35,7 @@ public class ResponsiveListener implements IExecutionListener {
 
     @Override
     public void onExecutionFinish() {
-        Allure.step("Post conditions", () -> GlobalDataContainer.getInstance().getAffectedPlayerIdList()
+        Allure.step("Post conditions", () -> ResponsiveDataContainer.getInstance().getAffectedPlayerIdList()
                 .forEach(affectedPlayerId -> {
                     PlayerDeleteRequestDto deleteRequestDto = PlayerDeleteRequestDto.builder()
                             .playerId(affectedPlayerId).build();

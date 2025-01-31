@@ -1,12 +1,10 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="spribe">
+    <listeners>
+        <listener class-name="spribe.listeners.ResponsiveListener"/>
+        <listener class-name="spribe.listeners.ResponsiveSuiteListener"/>
+    </listeners>
 
-<suite name="spribe" verbose="1">
-    <test name="player" parallel="methods" thread-count="3">
-        <groups>
-            <run>
-                <include name="ALL"/>
-            </run>
-        </groups>
+    <test name="Player">
         <packages>
             <package name="spribe.api.tests.*"/>
         </packages>

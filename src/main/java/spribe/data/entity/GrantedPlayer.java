@@ -2,7 +2,7 @@ package spribe.data.entity;
 
 import lombok.Builder;
 import lombok.Data;
-import spribe.utils.models.PlayerRole;
+import spribe.helpers.models.PlayerRole;
 
 @Data
 @Builder

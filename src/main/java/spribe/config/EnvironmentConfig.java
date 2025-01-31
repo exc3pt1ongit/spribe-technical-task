@@ -4,53 +4,34 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import spribe.api.ValueRetriever;
+import spribe.helpers.ValidationHelper;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
-import java.util.Properties;
+import static spribe.config.TestGroups.ALL;
 
 @Log4j2
 @Getter
 @RequiredArgsConstructor
 public enum EnvironmentConfig implements ValueRetriever {
-    ENV_SERVICE_URL("http://3.68.165.45"),
-    ENV_SERVICE_TIMEOUT("20000");
 
-    private static final Properties properties = new Properties();
+    ENV_SERVICE_URL("env_service_url", "http://3.68.165.45"),
+    ENV_SERVICE_TIMEOUT("env_service_timeout", "20000"),
 
-    static {
-        loadProperties();
-    }
+    ENV_PARALLEL("env_parallel", "methods"),
+    ENV_THREAD_COUNT("env_thread_count", "3"),
+    ENV_INCLUDE_GROUPS("env_included_groups", ALL),
+    ENV_EXCLUDE_GROUPS("env_excluded_groups", "");
 
-    private final String defaultValue;
+    private final String key;
+    private final String value;
 
-    private static void loadProperties() {
-        String propertiesFilePath = constructPropertiesFilePath();
-        try (InputStream input = new FileInputStream(propertiesFilePath)) {
-            properties.load(input);
-            log.info("Loaded properties from `environment.properties`");
-        } catch (IOException ex) {
-            log.warn("Could not load properties file from {}: {}", propertiesFilePath, ex.getMessage());
-        }
-    }
-
-    private static String constructPropertiesFilePath() {
-        String workingDir = System.getProperty("user.dir");
-        return Paths.get(workingDir, "src", "main", "resources", "environment.properties").toString();
+    private static String getPropertiesOrDefaultConfig(String key, String defaultValue) {
+        String result = ValidationHelper.isNotNullAndNotBlank(System.getProperty(key)) ?
+                System.getProperty(key) : defaultValue;
+        log.info("Config [{}]: Using value '{}'", key, result);
+        return result;
     }
 
     public String getValue() {
-        String key = name().toLowerCase().replace("_", ".");
-        String value = properties.getProperty(key, defaultValue);
-
-        if (properties.containsKey(key)) {
-            log.info("Loaded value for {} from environment properties: {}", key, value);
-        } else {
-            log.info("Using default value for {}: {}", key, defaultValue);
-        }
-
-        return value;
+        return getPropertiesOrDefaultConfig(key, value);
     }
 }

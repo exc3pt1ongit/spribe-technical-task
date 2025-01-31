@@ -14,12 +14,12 @@ import spribe.api.player.dto.update.PlayerUpdateResponseDto;
 import spribe.api.player.requests.UpdatePlayerByIdRequest;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.api.tests.player.CheckPlayerGrantedPermissionsTests;
-import spribe.utils.ResponsiveMapper;
-import spribe.utils.models.PlayerGender;
-import spribe.utils.models.PlayerRole;
+import spribe.helpers.ResponsiveMapper;
+import spribe.helpers.models.PlayerGender;
+import spribe.helpers.models.PlayerRole;
 
 import static spribe.config.TestGroups.*;
-import static spribe.utils.PlayerMapper.fromCreateResponseDto;
+import static spribe.helpers.PlayerMapper.fromCreateResponseDto;
 
 @Log4j2
 public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGrantedPermissionsTests {

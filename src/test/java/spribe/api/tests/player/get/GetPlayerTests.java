@@ -12,7 +12,7 @@ import spribe.api.player.dto.get.PlayerGetByPlayerIdRequestDto;
 import spribe.api.player.dto.get.PlayerGetByPlayerIdResponseDto;
 import spribe.api.player.requests.GetPlayerByPlayerIdRequest;
 import spribe.api.tests.player.BasePlayerTest;
-import spribe.utils.ResponsiveMapper;
+import spribe.helpers.ResponsiveMapper;
 
 import static spribe.config.TestGroups.*;
 

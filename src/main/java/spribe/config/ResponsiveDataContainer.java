@@ -7,13 +7,13 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class GlobalDataContainer {
+public class ResponsiveDataContainer {
 
     @Getter
-    private static final GlobalDataContainer instance = new GlobalDataContainer();
+    private static final ResponsiveDataContainer instance = new ResponsiveDataContainer();
     private final Set<Integer> affectedPlayerIdList = new CopyOnWriteArraySet<>();
 
-    private GlobalDataContainer() {
+    private ResponsiveDataContainer() {
     }
 
     public synchronized void addAffectedPlayerId(Integer playerId) {

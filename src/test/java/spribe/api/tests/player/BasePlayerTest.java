@@ -13,11 +13,11 @@ import spribe.api.player.dto.get.all.PlayerItemResponseDto;
 import spribe.api.player.requests.CreatePlayerRequest;
 import spribe.api.player.requests.GetPlayerByPlayerIdRequest;
 import spribe.api.tests.AbstractBaseTest;
-import spribe.config.GlobalDataContainer;
+import spribe.config.ResponsiveDataContainer;
 import spribe.data.entity.GrantedPlayer;
-import spribe.utils.ResponsiveMapper;
-import spribe.utils.models.PlayerGender;
-import spribe.utils.models.PlayerRole;
+import spribe.helpers.ResponsiveMapper;
+import spribe.helpers.models.PlayerGender;
+import spribe.helpers.models.PlayerRole;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -60,7 +60,7 @@ public class BasePlayerTest extends AbstractBaseTest {
             Response response = new CreatePlayerRequest(supervisor.getLogin()).call(createPlayerRequestDto);
             Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK, "status code isn't OK");
             PlayerCreateResponseDto createdPlayer = ResponsiveMapper.map(response, PlayerCreateResponseDto.class);
-            GlobalDataContainer.getInstance().addAffectedPlayerId(createdPlayer.getId());
+            ResponsiveDataContainer.getInstance().addAffectedPlayerId(createdPlayer.getId());
             return createdPlayer;
         });
     }

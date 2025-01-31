@@ -1,4 +1,4 @@
-package spribe.utils;
+package spribe.helpers;
 
 import spribe.api.player.dto.PlayerResponseDto;
 import spribe.api.player.dto.create.PlayerCreateResponseDto;

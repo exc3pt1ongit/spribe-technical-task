@@ -1,6 +1,6 @@
 package spribe.api.tests.player;
 
-import spribe.utils.models.PlayerRole;
+import spribe.helpers.models.PlayerRole;
 
 public interface CheckPlayerGrantedPermissionsTests {
 

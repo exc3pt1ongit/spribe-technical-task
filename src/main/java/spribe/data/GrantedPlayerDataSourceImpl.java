@@ -3,7 +3,7 @@ package spribe.data;
 import lombok.RequiredArgsConstructor;
 import spribe.data.entity.GrantedPlayer;
 import spribe.data.fetch.GrantedPlayerFetcher;
-import spribe.utils.models.PlayerRole;
+import spribe.helpers.models.PlayerRole;
 
 import java.util.List;
 
