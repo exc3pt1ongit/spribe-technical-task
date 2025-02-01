@@ -10,11 +10,15 @@
 - [Test run and Environment setup](#test-run-and-environment-setup)
   - [Environment setup](#environment-setup)
   - [Run tests with custom properties](#run-tests-with-custom-properties)
-  - [How can I run smock tests quickly?](#how-can-i-run-smoke-tests-quickly)
+  - [How can I run SMOKE tests quickly?](#how-can-i-run-smoke-tests-quickly)
   - [Allure and Environment](#allure-and-environment)
 - [Test Framework Structure](#test-framework-structure)
   - [Project structure](#project-structure)
   - [Data Layer and Fetching](#data-layer-and-fetching)
+  - [Listeners and Interceptors](#listeners-and-interceptors)
+    - [ResponsiveExecutionListener](#responsiveexecutionlistener)
+    - [ResponsiveSuiteListener](#responsivesuitelistener)
+    - [ResponsiveMethodInterceptor](#responsivemethodinterceptor)
 
 ## Overview
 
@@ -98,14 +102,6 @@ The environment settings will also be displayed in the Allure Report in the Over
 
 ## Test Framework Structure
 
-### Data Layer and Fetching
-
-I have prepared the logic to facilitate a smooth transition from using **Enums** to a real data source, whether it be **SQL** or **NoSQL**.
-
-This logic allows for more dynamic data management and improved scalability of the API test framework.
-
----
-
 ### Project Structure
 ```
 spribe-technical-task
@@ -147,3 +143,61 @@ spribe-technical-task
             └───json.schemas
                 └───player
 ```
+
+---
+
+### Data Layer and Fetching
+
+I have prepared the logic to facilitate a smooth transition from using **Enums** to a real data source, whether it be **SQL** or **NoSQL**.
+
+This logic allows for more dynamic data management and improved scalability of the API test framework.
+
+---
+
+### Listeners and Interceptors
+
+Test framework implements several listeners and interceptors that help with managing test execution, 
+check the availability of services, and configure execution parameters. Let's take a look at how these components work.
+
+---
+
+#### ResponsiveExecutionListener
+   - This listener implements the `IExecutionListener` interface and performs actions at the beginning and end of test execution.
+
+     - `onExecutionStart()`:
+       - Calls the `AllureHelper.configAllureEnvironment()` method to configure the Allure reporting environment. 
+       - Performs a service availability check via the `serviceAvailabilityCheck()` method to ensure that the API is available before testing begins.
+
+     - `onExecutionFinish()`:
+       - Executes post-conditions, removing all players that were involved during the test. 
+       - This is done through a `ResponsiveDataContainer` that contains a list of player IDs to be deleted.
+
+     - `serviceAvailabilityCheck()`:
+       - Checks the availability of the service by sending a request to the specified URL. 
+       - If the service is unavailable, the listener repeats the request up to three times with the timeout specified in the configuration. 
+       - If the service is still unavailable, a `ServiceNotReachableException` is thrown.
+
+---
+
+#### ResponsiveSuiteListener
+   - This listener implements the `ISuiteListener` interface and is responsible for configuring the execution parameters of the test suite.
+   
+     - `onStart(ISuite suite)`:
+        - Calls the `configureTestNGExecutionProperties(suite)` method to configure test execution parameters such as parallel mode, 
+       number of threads, and included and excluded test groups.
+       
+     - `onFinish(ISuite suite)`:
+       - Logs information about the completion of a test suite execution. 
+  
+     - `configureTestNGExecutionProperties(ISuite suite)`:
+       - Configures the test suite properties, including name, listeners, parallel mode, number of threads, and included and excluded groups. 
+       - Logging information about the settings helps in diagnostics.
+
+---
+
+#### ResponsiveMethodInterceptor
+  - This interceptor implements the IMethodInterceptor interface and is responsible for filtering test methods based on groups.
+
+    - `intercept(List<IMethodInstance> methods, ITestContext context)`:
+    - Checks which test methods are included or excluded based on the `ENV_INCLUDED_GROUPS` and `ENV_EXCLUDED_GROUPS` configuration parameters.
+    - Returns a list of methods that meet the inclusion and exclusion criteria.
