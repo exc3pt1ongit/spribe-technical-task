@@ -141,3 +141,7 @@ error: instance type (null) does not match any allowed primitive type (allowed: 
 ## Environment
 - **Service URL:** http://3.68.165.45/
 - **Service Timeout:** 20000ms
+- **Parallel:** methods
+- **Thread count:** 3
+- **Include groups:** ALL
+- **Exclude groups:** (none)

@@ -1,6 +1,7 @@
 package spribe.api.tests.player.get;
 
 import io.qameta.allure.Allure;
+import io.qameta.allure.Issue;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpStatus;
@@ -37,6 +38,7 @@ public class GetPlayerTests extends BasePlayerTest implements MethodNotAllowedTe
         assertMethodNotAllowed(new GetPlayerByPlayerIdRequest(), playerGetByIdRequestDto);
     }
 
+    @Issue("ISSUE-008")
     @Test(groups = {ALL, PLAYER, PLAYER_GET, POSITIVE, SMOKE})
     public void getPlayerByPlayerIdTest() {
         PlayerCreateResponseDto createdPlayer = createPlayer();
@@ -59,6 +61,7 @@ public class GetPlayerTests extends BasePlayerTest implements MethodNotAllowedTe
         });
     }
 
+    @Issue("ISSUE-010")
     @Test(groups = {ALL, PLAYER, PLAYER_GET, NEGATIVE},
             dataProvider = "invalidIdNumberParameters", dataProviderClass = GetPlayerDataProvider.class)
     public void getNonExistentPlayerByIdTest(Long id) {
@@ -68,6 +71,7 @@ public class GetPlayerTests extends BasePlayerTest implements MethodNotAllowedTe
                 playerGetByIdRequestDto, HttpStatus.SC_NOT_FOUND);
     }
 
+    @Issue("ISSUE-009")
     @Test(groups = {ALL, PLAYER, PLAYER_GET, NEGATIVE},
             dataProvider = "invalidIdStringParameters", dataProviderClass = GetPlayerDataProvider.class)
     public void getPlayerByNotValidPlayerIdTest(String id) {

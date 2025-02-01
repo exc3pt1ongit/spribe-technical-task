@@ -11,7 +11,11 @@
 ---
 
 ## Description
-Currently, users with the role 'user' are able to update the information of other users who also have the role 'user'. This behavior contradicts the intended access control policies, which should prevent users from modifying the details of other users with the same role. This issue raises concerns regarding data integrity and user privacy.
+Currently, users with the role `user` are able to update the information of other users who also have the role `user`. 
+
+This behavior contradicts the intended access control policies, which should prevent users from modifying the details of other users with the same role. 
+
+This issue raises concerns regarding data integrity and user privacy.
 
 ---
 
@@ -41,3 +45,7 @@ Http Response code: **403 FORBIDDEN**
 ## Environment
 - **Service URL:** http://3.68.165.45/
 - **Service Timeout:** 20000ms
+- **Parallel:** methods
+- **Thread count:** 3
+- **Include groups:** ALL
+- **Exclude groups:** (none)

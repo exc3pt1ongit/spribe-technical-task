@@ -11,7 +11,11 @@
 ---
 
 ## Description
-Currently, users with the role 'user' are able to delete other users who also have the role 'user'. This behavior violates the intended access control policies, which should restrict users from performing deletion actions on other users of the same role. This issue poses a significant risk to user data integrity and security.
+Currently, users with the role `user` are able to delete other users who also have the role `user`. 
+
+This behavior violates the intended access control policies, which should restrict users from performing deletion actions on other users of the same role. 
+
+This issue poses a significant risk to user data integrity and security.
 
 ---
 
@@ -40,3 +44,7 @@ Http Response code: **403 FORBIDDEN**
 ## Environment
 - **Service URL:** http://3.68.165.45/
 - **Service Timeout:** 20000ms
+- **Parallel:** methods
+- **Thread count:** 3
+- **Include groups:** ALL
+- **Exclude groups:** (none)

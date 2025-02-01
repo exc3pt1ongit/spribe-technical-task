@@ -11,7 +11,11 @@
 ---
 
 ## Description
-Currently, users with the role 'user' are able to update the information of users with the role 'admin'. This behavior is a significant security flaw, as it allows lower-privileged users to modify the details of higher-privileged users, potentially compromising the integrity and security of the application. This issue must be addressed immediately to prevent unauthorized access and modifications.
+Currently, users with the role `user` are able to update the information of users with the role `admin`. 
+
+This behavior is a significant security flaw, as it allows lower-privileged users to modify the details of higher-privileged users, potentially compromising the integrity and security of the application. 
+
+This issue must be addressed immediately to prevent unauthorized access and modifications.
 
 ---
 
@@ -41,3 +45,7 @@ Http Response code: **403 FORBIDDEN**
 ## Environment
 - **Service URL:** http://3.68.165.45/
 - **Service Timeout:** 20000ms
+- **Parallel:** methods
+- **Thread count:** 3
+- **Include groups:** ALL
+- **Exclude groups:** (none)

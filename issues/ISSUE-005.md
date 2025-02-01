@@ -12,6 +12,7 @@
 
 ## Description
 The test case has failed due to discrepancies between the expected and actual values after attempting to update a player's information.
+
 Test failure logs indicate that the update functionality is not behaving as intended, leading to incorrect data being saved.
 
 ---
@@ -32,6 +33,7 @@ The following discrepancies were observed after the update operation:
 - **Gender:** Found value does not match the expected gender.
 - **Role:** Found value does not match the expected role.
 - **Screen Name:** Found value does not match the expected screen name.
+- ... other fields that have been updated
 
 ---
 
@@ -41,6 +43,7 @@ The values after the update should match the expected attributes as defined in t
 - **Gender:** Should match the expected gender.
 - **Role:** Should reflect the expected role.
 - **Screen Name:** Should be set to the expected screen name.
+- ... other fields that have been updated
 
 ---
 
@@ -88,3 +91,7 @@ java.lang.AssertionError: The following asserts failed:
 ## Environment
 - **Service URL:** http://3.68.165.45/
 - **Service Timeout:** 20000ms
+- **Parallel:** methods
+- **Thread count:** 3
+- **Include groups:** ALL
+- **Exclude groups:** (none)

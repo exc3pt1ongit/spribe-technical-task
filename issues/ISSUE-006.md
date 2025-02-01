@@ -11,7 +11,8 @@
 ---
 
 ## Description
-The API endpoint for retrieving all player records is returning responses that are missing critical field, specifically the 'role' attributes.
+The API endpoint for retrieving all player records is returning responses that are missing critical field, specifically the `role` attributes.
+
 This issue affects the integrity of the data being provided to clients and may lead to confusion or errors in applications relying on this information.
 
 ---
@@ -53,3 +54,7 @@ error: object has missing required properties (["role"])
 ## Environment
 - **Service URL:** http://3.68.165.45/
 - **Service Timeout:** 20000ms
+- **Parallel:** methods
+- **Thread count:** 3
+- **Include groups:** ALL
+- **Exclude groups:** (none)

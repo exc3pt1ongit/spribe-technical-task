@@ -1,8 +1,8 @@
-# Issue #004
+# Issue #008
 
-**Title:** Update Player Test Failure: Incorrect Values After Update (full request)
+**Title:** Null Field Values in Get Endpoint Response
 
-**Priority:** Medium
+**Priority:** High
 
 **Severity:** Major
 
@@ -11,55 +11,54 @@
 ---
 
 ## Description
-The test case has failed due to discrepancies between the expected and actual values after attempting to update a player's information.
+The API endpoint for retrieving player record by id is returning responses that are `null` critical field, specifically the `age`, `gender`, `password`, `role`, `screenName` attributes.
 
-Test failure logs indicate that the update functionality is not behaving as intended, leading to incorrect data being saved.
+This issue affects the integrity of the data being provided to clients and may lead to confusion or errors in applications relying on this information.
 
 ---
 
 ## Steps to Reproduce (STR)
-1. Select an "editor" with role 'supervisor'
-2. Select the player with role 'user' to update and retrieve the "id"
-3. Fully fill the update request DTO with all the available fields changed
-4. `PATCH /player/update/{editor}/{id}`
-5.
+1. Fill the `playerId` property in request DTO with valid (existing) value
+2. `POST /player/get`
+3. 
    ...
 
 ---
 
 ## Actual Result (AR)
-The following discrepancies were observed after the update operation:
-
-- **Role:** Found value does not match the expected role.
-- **Login:** Found value does not match the expected login identifier.
-- **Screen Name:** Found value does not match the expected screen name.
+The response from the "Get" endpoint is null the `age`, `gender`, `password`, `role`, `screenName` fields for player record, leading to incomplete data being returned.
 
 ---
 
 ## Expected Result (ER)
-The values after the update should match the expected attributes as defined in the test case:
-
-- **Role:** Should reflect the expected role.
-- **Login:** Should match the expected login identifier.
-- **Screen Name:** Should be set to the expected screen name.
+The response from the "Get" endpoint should include all relevant fields player record, ensuring that the data is complete and accurate.
 
 ---
 
 ## Attachments
+
 ```
 The following asserts failed:
-	role after update isn't equals expected [admin] but found [user],
-	login after update isn't equals expected [testLogin_a611dadd-554b-4165-981e-cfd19b29efb8] but found [upd_testLogin_a611dadd-554b-4165-981e-cfd19b29efb8],
-	screenName after update isn't equals expected [null] but found [upd_null]
-	
+	age isn't equals expected [null] but found [18],
+	gender isn't equals expected [null] but found [female],
+	password isn't equals expected [null] but found [testPassword_78eb23d9-39ed-419f-a3e6-f0d3b44fa1ab],
+	role isn't equals expected [null] but found [admin],
+	screenName isn't equals expected [null] but found [testScreenName_78eb23d9-39ed-419f-a3e6-f0d3b44fa1ab]
 java.lang.AssertionError: The following asserts failed:
-	role after update isn't equals expected [admin] but found [user],
-	login after update isn't equals expected [testLogin_a611dadd-554b-4165-981e-cfd19b29efb8] but found [upd_testLogin_a611dadd-554b-4165-981e-cfd19b29efb8],
-	screenName after update isn't equals expected [null] but found [upd_null]
+	age isn't equals expected [null] but found [18],
+	gender isn't equals expected [null] but found [female],
+	password isn't equals expected [null] but found [testPassword_78eb23d9-39ed-419f-a3e6-f0d3b44fa1ab],
+	role isn't equals expected [null] but found [admin],
+	screenName isn't equals expected [null] but found [testScreenName_78eb23d9-39ed-419f-a3e6-f0d3b44fa1ab]
 	at org.testng.asserts.SoftAssert.assertAll(SoftAssert.java:46)
 	at org.testng.asserts.SoftAssert.assertAll(SoftAssert.java:30)
-	at spribe.api.tests.player.update.UpdatePlayerTests.assertPlayerUpdateResponse(UpdatePlayerTests.java:97)
-	at spribe.api.tests.player.update.UpdatePlayerTests.updatePlayerWithValidFullMutatedValuesTest(UpdatePlayerTests.java:62)
+	at spribe.api.tests.player.get.GetPlayerTests.lambda$getPlayerByPlayerIdTest$0(GetPlayerTests.java:58)
+	at io.qameta.allure.Allure.lambda$step$0(Allure.java:113)
+	at io.qameta.allure.Allure.lambda$step$1(Allure.java:127)
+	at io.qameta.allure.Allure.step(Allure.java:181)
+	at io.qameta.allure.Allure.step(Allure.java:125)
+	at io.qameta.allure.Allure.step(Allure.java:112)
+	at spribe.api.tests.player.get.GetPlayerTests.getPlayerByPlayerIdTest(GetPlayerTests.java:49)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
