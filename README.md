@@ -5,10 +5,15 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Issue tracking](#issue-tracking)
+  - [How does it work?](#how-does-it-work)
 - [Test run and Environment setup](#test-run-and-environment-setup)
   - [Environment setup](#environment-setup)
   - [Run tests with custom properties](#run-tests-with-custom-properties)
   - [Allure and Environment](#allure-and-environment)
+- [Test Framework Structure](#test-framework-structure)
+  - [Project structure](#project-structure)
+  - [Data Layer and Fetching](#data-layer-and-fetching)
 
 ## Overview
 
@@ -22,6 +27,17 @@ The API Test Framework built with:
 - **Addition utils:** Lombok, Jackson Databind
 
 This test framework is created to cover a test case from [Spribe](https://spribe.co/).
+
+## Issue tracking
+
+In addition to the testing framework, I have created an `issues` folder where all issues related to the `Player Controller` are documented. 
+Each issue is linked with the `Allure Report`, allowing for easy tracking and management of bugs and feature requests.
+
+### How does it work?
+
+- Navigate to the `issues` folder in the project directory.
+- Each issue is documented in a separate markdown file, detailing the problem, steps to reproduce, and any relevant screenshots or logs.
+- When running tests, any related issues will be automatically linked in the **Allure Report**, providing a comprehensive view of the test results alongside the issues.
 
 ## Test run and Environment setup
 
@@ -49,7 +65,7 @@ To do this, you can use the `-D` flag with Maven.
 Here’s an example command to run tests with custom properties:
 
 ```bash
-mvn test -Denv_service_url=https://api.custom.com -Denv_service_timeout=35000
+mvn clean test -Denv_service_url=https://api.custom.com -Denv_service_timeout=35000
 ```
 
 ---
@@ -59,3 +75,53 @@ mvn test -Denv_service_url=https://api.custom.com -Denv_service_timeout=35000
 The environment settings will also be displayed in the Allure Report in the Overview -> Environment section. The values will be automatically packed into `environment.properties`.
 
 ![Allure and Environment Screenshot](https://i.imgur.com/IwjmFV3.png)
+
+## Test Framework Structure
+
+### Data Layer and Fetching
+
+I have prepared the logic to facilitate a smooth transition from using **Enums** to a real data source, whether it be **SQL** or **NoSQL**.
+
+This logic allows for more dynamic data management and improved scalability of the API test framework.
+
+### Project Structure
+```
+spribe-technical-task
+├───issues
+└───src
+    ├───main
+    │   └───java
+    │       └───spribe
+    │           ├───api
+    │           │   └───player
+    │           │       ├───dto
+    │           │       │   ├───create
+    │           │       │   ├───delete
+    │           │       │   ├───get
+    │           │       │   │   └───all
+    │           │       │   └───update
+    │           │       └───requests
+    │           ├───config
+    │           ├───data
+    │           │   ├───entity
+    │           │   ├───fetch
+    │           │   └───models
+    │           ├───helpers
+    │           ├───listeners
+    │           └───utils
+    │               └───exceptions
+    └───test
+        ├───java
+        │   └───spribe
+        │       └───api
+        │           └───tests
+        │               └───player
+        │                   ├───create
+        │                   ├───delete
+        │                   ├───get
+        │                   │   └───all
+        │                   └───update
+        └───resources
+            └───json.schemas
+                └───player
+```
