@@ -10,7 +10,7 @@
 - [Test run and Environment setup](#test-run-and-environment-setup)
   - [Environment setup](#environment-setup)
   - [Run tests with custom properties](#run-tests-with-custom-properties)
-  - [How can I run smock tests quickly?](#how-can-i-run-smock-tests-quickly)
+  - [How can I run smock tests quickly?](#how-can-i-run-smoke-tests-quickly)
   - [Allure and Environment](#allure-and-environment)
 - [Test Framework Structure](#test-framework-structure)
   - [Project structure](#project-structure)
@@ -69,7 +69,9 @@ Here’s an example command to run tests with custom properties:
 mvn clean test -Denv_service_url=https://api.custom.com -Denv_service_timeout=35000
 ```
 
-### How can I run smock tests quickly?
+---
+
+### How can I run SMOKE tests quickly?
 
 - **Step 1: Identify Smoke Test Cases**
   - Ensure that you have identified the smoke test cases in your test suite. 
