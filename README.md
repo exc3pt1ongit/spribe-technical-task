@@ -2,8 +2,6 @@
 
 **Attention!** This README will not include basic stuff for setup, contributing, and the like.
 
----
-
 ## Table of Contents
 
 - [Overview](#overview)
@@ -11,8 +9,6 @@
   - [Environment setup](#environment-setup)
   - [Run tests with custom properties](#run-tests-with-custom-properties)
   - [Allure and Environment](#allure-and-environment)
-
----
 
 ## Overview
 
@@ -26,8 +22,6 @@ The API Test Framework built with:
 - **Addition utils:** Lombok, Jackson Databind
 
 This test framework is created to cover a test case from [Spribe](https://spribe.co/).
-
----
 
 ## Test run and Environment setup
 
@@ -45,6 +39,8 @@ Setup can also be prioritized by passing properties during test runtime.
 | env_included_groups | ALL                | Included groups in test run                   |
 | env_excluded_groups |                    | Excluded groups from test run                 |
 
+---
+
 ### Run tests with custom properties
 
 You can override the default values by providing custom properties when running your tests. 
@@ -55,6 +51,8 @@ Here’s an example command to run tests with custom properties:
 ```bash
 mvn test -Denv_service_url=https://api.custom.com -Denv_service_timeout=35000
 ```
+
+---
 
 ### Allure and Environment
 

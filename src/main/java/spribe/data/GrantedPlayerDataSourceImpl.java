@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import spribe.data.entity.GrantedPlayer;
 import spribe.data.fetch.GrantedPlayerFetcher;
 import spribe.data.models.PlayerRole;
+import spribe.utils.exceptions.PlayerNotFoundException;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class GrantedPlayerDataSourceImpl implements GrantedPlayerDataSource {
         return grantedPlayerFetcher.fetch().stream()
                 .filter(player -> player.getLogin().equals(login))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Could not find player with login: " + login));
+                .orElseThrow(() -> new PlayerNotFoundException("login", login));
     }
 
     @Override
@@ -25,7 +26,7 @@ public class GrantedPlayerDataSourceImpl implements GrantedPlayerDataSource {
         return grantedPlayerFetcher.fetch().stream()
                 .filter(player -> player.getRole().equals(role))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Could not find player with role: " + role));
+                .orElseThrow(() -> new PlayerNotFoundException("role", role.getValue()));
     }
 
     @Override

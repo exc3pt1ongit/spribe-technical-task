@@ -12,6 +12,7 @@ import spribe.config.EnvironmentConfig;
 import spribe.config.ResponsiveDataContainer;
 import spribe.data.GrantedPlayers;
 import spribe.helpers.AllureHelper;
+import spribe.utils.exceptions.ServiceNotReachableException;
 
 @Log4j2
 public class ResponsiveExecutionListener implements IExecutionListener {
@@ -58,7 +59,7 @@ public class ResponsiveExecutionListener implements IExecutionListener {
 
                 if (count == maxCount) {
                     log.error("Service at {} is not reachable. Test execution will be stopped.", serviceUrl);
-                    throw new RuntimeException("Service is not reachable. Aborting test execution.");
+                    throw new ServiceNotReachableException();
                 }
 
                 try {
