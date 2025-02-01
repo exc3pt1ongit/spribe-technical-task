@@ -15,6 +15,8 @@
 - [Test Framework Structure](#test-framework-structure)
   - [Project structure](#project-structure)
   - [Data Layer and Fetching](#data-layer-and-fetching)
+    - [GrantedPlayerFetcher](#grantedplayerfetcher)
+    - [GrantedPlayerDataSource](#grantedplayerdatasource)
   - [Listeners and Interceptors](#listeners-and-interceptors)
     - [ResponsiveExecutionListener](#responsiveexecutionlistener)
     - [ResponsiveSuiteListener](#responsivesuitelistener)
