@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Properties;
 
 @Log4j2
@@ -40,7 +41,8 @@ public class AllureHelper {
                 p.store(output, null);
             }
         } catch (IOException e) {
-            // TODO: Add custom IOUtils related with Allure exception here
+            log.error("Failed to configure Allure Environment ('{}').\nStacktrace: {}",
+                    envFilePath, Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
         }
     }

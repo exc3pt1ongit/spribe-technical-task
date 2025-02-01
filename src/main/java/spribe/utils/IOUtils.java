@@ -14,7 +14,7 @@ public class IOUtils {
         try {
             path.toFile().createNewFile();
         } catch (IOException e) {
-            // TODO: Add custom IOUtils exception here
+            log.error("Error creating file. Path: {}\nStacktrace: {}", path, e.getStackTrace());
             throw new RuntimeException(e);
         }
     }
@@ -23,7 +23,7 @@ public class IOUtils {
         try (PrintWriter writer = new PrintWriter(path, StandardCharsets.UTF_8)) {
             writer.print(val);
         } catch (IOException e) {
-            // TODO: Add custom IOUtils exception here
+            log.error("Cannot write to file '{}'. Stacktrace: {}", path, e.getStackTrace());
             throw new RuntimeException(e);
         }
     }
