@@ -27,13 +27,6 @@ public enum EnvironmentConfig implements ValueRetriever {
     private final String key;
     private final String value;
 
-    private static String getPropertiesOrDefaultConfig(String key, String defaultValue) {
-        String result = ValidationHelper.isNotNullAndNotBlank(System.getProperty(key)) ?
-                System.getProperty(key) : defaultValue;
-        log.info("Config [{}]: Using value '{}'", key, result);
-        return result;
-    }
-
     public static Map<String, String> getConfigMap() {
         return java.util.Arrays.stream(EnvironmentConfig.values())
                 .collect(Collectors.toMap(EnvironmentConfig::getKey, EnvironmentConfig::getValue));
@@ -41,5 +34,12 @@ public enum EnvironmentConfig implements ValueRetriever {
 
     public String getValue() {
         return getPropertiesOrDefaultConfig(key, value);
+    }
+
+    private static String getPropertiesOrDefaultConfig(String key, String defaultValue) {
+        String result = ValidationHelper.isNotNullAndNotBlank(System.getProperty(key)) ?
+                System.getProperty(key) : defaultValue;
+        log.info("Config [{}]: Using value '{}'", key, result);
+        return result;
     }
 }
