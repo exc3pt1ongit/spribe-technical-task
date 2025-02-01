@@ -21,8 +21,8 @@ public enum EnvironmentConfig implements ValueRetriever {
 
     ENV_PARALLEL("env_parallel", "methods"),
     ENV_THREAD_COUNT("env_thread_count", "3"),
-    ENV_INCLUDE_GROUPS("env_included_groups", ALL),
-    ENV_EXCLUDE_GROUPS("env_excluded_groups", "");
+    ENV_INCLUDED_GROUPS("env_included_groups", ALL),
+    ENV_EXCLUDED_GROUPS("env_excluded_groups", "");
 
     private final String key;
     private final String value;

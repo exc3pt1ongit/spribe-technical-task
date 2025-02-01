@@ -13,12 +13,13 @@ import spribe.data.GrantedPlayerDataSourceImpl;
 import spribe.data.fetch.EnumGrantedPlayerFetcher;
 import spribe.data.fetch.GrantedPlayerFetcher;
 import spribe.listeners.ResponsiveExecutionListener;
+import spribe.listeners.ResponsiveMethodInterceptor;
 import spribe.listeners.ResponsiveSuiteListener;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 @Log4j2
-@Listeners({ResponsiveExecutionListener.class, ResponsiveSuiteListener.class})
+@Listeners({ResponsiveExecutionListener.class, ResponsiveSuiteListener.class, ResponsiveMethodInterceptor.class})
 public abstract class AbstractBaseTest {
 
     protected final GrantedPlayerFetcher grantedPlayerFetcher;
@@ -76,7 +77,7 @@ public abstract class AbstractBaseTest {
                     .statusCode(code);
         });
     }
-    
+
     protected void assertMethodNotAllowed(RequestWithNotAllowedMethod request,
                                           RequestDto requestDto) {
         Allure.step("Assert method not allowed", () -> {

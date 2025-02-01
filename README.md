@@ -10,6 +10,7 @@
 - [Test run and Environment setup](#test-run-and-environment-setup)
   - [Environment setup](#environment-setup)
   - [Run tests with custom properties](#run-tests-with-custom-properties)
+  - [How can I run smock tests quickly?](#how-can-i-run-smock-tests-quickly)
   - [Allure and Environment](#allure-and-environment)
 - [Test Framework Structure](#test-framework-structure)
   - [Project structure](#project-structure)
@@ -68,6 +69,23 @@ Here’s an example command to run tests with custom properties:
 mvn clean test -Denv_service_url=https://api.custom.com -Denv_service_timeout=35000
 ```
 
+### How can I run smock tests quickly?
+
+- **Step 1: Identify Smoke Test Cases**
+  - Ensure that you have identified the smoke test cases in your test suite. 
+  - These are typically the most critical tests that cover the core functionalities of your API.
+- **Step 2: Mark tests with SMOKE group**
+  - Make sure your smoke tests are annotated with a specific group
+  - `@Test(groups = {ALL, ..., SMOKE})`
+- **Step 3: Run Smoke Tests with Maven**
+  - To execute only the smoke tests, use the following Maven command.
+
+```bash
+mvn clean test -Denv_included_groups=SMOKE
+```
+
+**Attention!** Tests will only be run if they are included in the startup and NOT excluded from it.
+
 ---
 
 ### Allure and Environment
@@ -83,6 +101,8 @@ The environment settings will also be displayed in the Allure Report in the Over
 I have prepared the logic to facilitate a smooth transition from using **Enums** to a real data source, whether it be **SQL** or **NoSQL**.
 
 This logic allows for more dynamic data management and improved scalability of the API test framework.
+
+---
 
 ### Project Structure
 ```
