@@ -32,4 +32,15 @@ public class UpdatePlayerByIdRequest extends AbstractBaseRequest {
                     .patch();
         });
     }
+
+    @Override
+    public Response methodNotAllowed(RequestDto requestDto) {
+        return requestConfig()
+                .pathParam("editor", editor)
+                .pathParam("id", playerId)
+                .body(requestDto)
+                .when()
+                .log().all()
+                .delete();
+    }
 }

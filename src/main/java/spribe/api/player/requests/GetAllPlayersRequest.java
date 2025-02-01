@@ -28,4 +28,14 @@ public class GetAllPlayersRequest extends AbstractBaseRequest {
     public Response call() {
         return call(null);
     }
+
+    @Override
+    public Response methodNotAllowed(RequestDto requestDto) {
+        return Allure.step("Get all players list by request (with not allowed method)", () ->
+                requestConfig()
+                        .when()
+                        .log().all()
+                        .delete()
+        );
+    }
 }

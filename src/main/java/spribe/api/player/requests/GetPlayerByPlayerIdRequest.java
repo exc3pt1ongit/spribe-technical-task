@@ -25,4 +25,15 @@ public class GetPlayerByPlayerIdRequest extends AbstractBaseRequest {
                     .post();
         });
     }
+
+    @Override
+    public Response methodNotAllowed(RequestDto requestDto) {
+        return Allure.step("Get player by player id by request (with not allowed method)", () ->
+                requestConfig()
+                        .body(requestDto)
+                        .when()
+                        .log().all()
+                        .delete()
+        );
+    }
 }

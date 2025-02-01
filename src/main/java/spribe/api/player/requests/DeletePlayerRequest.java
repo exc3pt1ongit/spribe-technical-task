@@ -29,4 +29,16 @@ public class DeletePlayerRequest extends AbstractBaseRequest {
                     .delete();
         });
     }
+
+    @Override
+    public Response methodNotAllowed(RequestDto requestDto) {
+        return Allure.step("Delete player by request (with not allowed method)", () ->
+                requestConfig()
+                        .pathParam("editor", editor)
+                        .body(requestDto)
+                        .when()
+                        .log().all()
+                        .put()
+        );
+    }
 }

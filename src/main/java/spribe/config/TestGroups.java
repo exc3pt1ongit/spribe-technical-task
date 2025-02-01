@@ -4,9 +4,11 @@ public class TestGroups {
     public static final String ALL = "ALL";
 
     public static final String POSITIVE = "POSITIVE";
-    public static final String NEGATIVE = "NEGATIVE";
-    public static final String SCHEMA = "SCHEMA";
+    public static final String NEGATIVE = "NEGATIVE"
+            ;
     public static final String SMOKE = "SMOKE";
+    public static final String SCHEMA = "SCHEMA";
+    public static final String METHOD_NOT_ALLOWED = "METHOD_NOT_ALLOWED";
     
     public static final String PLAYER = "PLAYER";
     public static final String PLAYER_GET = "PLAYER_GET";

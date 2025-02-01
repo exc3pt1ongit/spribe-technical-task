@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Listeners;
 import spribe.api.Request;
 import spribe.api.RequestDto;
+import spribe.api.RequestWithNotAllowedMethod;
 import spribe.data.GrantedPlayerDataSource;
 import spribe.data.GrantedPlayerDataSourceImpl;
 import spribe.data.fetch.EnumGrantedPlayerFetcher;
@@ -69,10 +70,19 @@ public abstract class AbstractBaseTest {
     protected void assertValidStatusCode(Request request,
                                          RequestDto requestDto,
                                          Integer code) {
-        Allure.step("Assert valid status code", () -> {
+        Allure.step(String.format("Assert valid status code (%d)", code), () -> {
             request.call(requestDto)
                     .then()
                     .statusCode(code);
+        });
+    }
+    
+    protected void assertMethodNotAllowed(RequestWithNotAllowedMethod request,
+                                          RequestDto requestDto) {
+        Allure.step("Assert method not allowed", () -> {
+            request.methodNotAllowed(requestDto)
+                    .then()
+                    .statusCode(HttpStatus.SC_METHOD_NOT_ALLOWED);
         });
     }
 }

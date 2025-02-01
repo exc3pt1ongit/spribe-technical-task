@@ -35,6 +35,17 @@ public class CreatePlayerRequest extends AbstractBaseRequest {
         });
     }
 
+    @Override
+    public Response methodNotAllowed(RequestDto requestDto) {
+        PlayerCreateRequestDto playerCreateRequestDto = (PlayerCreateRequestDto) requestDto;
+        return requestConfig()
+                .pathParam("editor", editor)
+                .queryParams(toQueryParameterMap(playerCreateRequestDto))
+                .when()
+                .log().all()
+                .delete();
+    }
+    
     private Map<String, Object> toQueryParameterMap(PlayerCreateRequestDto playerCreateRequestDto) {
 
         Map<String, Object> playerQueryParameters = new HashMap<>();

@@ -11,17 +11,18 @@ import org.testng.asserts.SoftAssert;
 import spribe.api.player.dto.PlayerResponseDto;
 import spribe.api.player.dto.create.PlayerCreateRequestDto;
 import spribe.api.player.requests.CreatePlayerRequest;
+import spribe.api.tests.MethodNotAllowedTests;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.api.tests.player.CheckPlayerGrantedPermissionsTests;
 import spribe.config.ResponsiveDataContainer;
-import spribe.helpers.ResponsiveMapper;
 import spribe.data.models.PlayerRole;
+import spribe.helpers.ResponsiveMapper;
 
 import static spribe.config.TestGroups.*;
 import static spribe.helpers.PlayerMapper.fromCreateResponseDto;
 
 @Log4j2
-public class CreatePlayerTests extends BasePlayerTest implements CheckPlayerGrantedPermissionsTests {
+public class CreatePlayerTests extends BasePlayerTest implements CheckPlayerGrantedPermissionsTests, MethodNotAllowedTests {
 
     @Issue("ISSUE-007")
     @Test(groups = {ALL, PLAYER, PLAYER_CREATE, POSITIVE, SCHEMA, SMOKE})
@@ -50,6 +51,13 @@ public class CreatePlayerTests extends BasePlayerTest implements CheckPlayerGran
         PlayerCreateRequestDto playerCreateRequestDto = buildPlayerCreateRequestDto(PlayerRole.USER, Boolean.TRUE);
         assertValidStatusCode(new CreatePlayerRequest(player.getLogin()),
                 playerCreateRequestDto, HttpStatus.SC_FORBIDDEN);
+    }
+
+    @Test(groups = {ALL, PLAYER, PLAYER_CREATE, NEGATIVE, METHOD_NOT_ALLOWED})
+    public void methodNotAllowedTest() {
+        PlayerResponseDto supervisor = findSupervisor();
+        PlayerCreateRequestDto playerCreateRequestDto = buildPlayerCreateRequestDto(PlayerRole.USER, Boolean.TRUE);
+        assertMethodNotAllowed(new CreatePlayerRequest(supervisor.getLogin()), playerCreateRequestDto);
     }
 
     @Issue("ISSUE-007")

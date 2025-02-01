@@ -12,17 +12,18 @@ import spribe.api.player.dto.PlayerResponseDto;
 import spribe.api.player.dto.update.PlayerUpdateRequestDto;
 import spribe.api.player.dto.update.PlayerUpdateResponseDto;
 import spribe.api.player.requests.UpdatePlayerByIdRequest;
+import spribe.api.tests.MethodNotAllowedTests;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.api.tests.player.CheckPlayerGrantedPermissionsTests;
-import spribe.helpers.ResponsiveMapper;
 import spribe.data.models.PlayerGender;
 import spribe.data.models.PlayerRole;
+import spribe.helpers.ResponsiveMapper;
 
 import static spribe.config.TestGroups.*;
 import static spribe.helpers.PlayerMapper.fromCreateResponseDto;
 
 @Log4j2
-public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGrantedPermissionsTests {
+public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGrantedPermissionsTests, MethodNotAllowedTests {
 
     @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, POSITIVE, SCHEMA, SMOKE})
     public void updatePlayerSchemaTest() {
@@ -52,6 +53,14 @@ public class UpdatePlayerTests extends BasePlayerTest implements CheckPlayerGran
         PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
         assertValidStatusCodeAndContentType(new UpdatePlayerByIdRequest(player.getLogin(), createdPlayer.getId()),
                 updateRequestDto, HttpStatus.SC_FORBIDDEN);
+    }
+
+    @Test(groups = {ALL, PLAYER, PLAYER_UPDATE, NEGATIVE, METHOD_NOT_ALLOWED})
+    public void methodNotAllowedTest() {
+        PlayerResponseDto supervisor = findSupervisor();
+        PlayerResponseDto createdPlayer = fromCreateResponseDto(createPlayer(PlayerRole.USER));
+        PlayerUpdateRequestDto updateRequestDto = buildFullUpdateRequestDto(createdPlayer);
+        assertMethodNotAllowed(new UpdatePlayerByIdRequest(supervisor.getLogin(), createdPlayer.getId()), updateRequestDto);
     }
 
     @Issue("ISSUE-004")

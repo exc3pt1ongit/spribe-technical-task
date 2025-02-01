@@ -11,6 +11,7 @@ import org.testng.asserts.SoftAssert;
 import spribe.api.player.dto.create.PlayerCreateResponseDto;
 import spribe.api.player.dto.get.all.PlayerItemResponseDto;
 import spribe.api.player.requests.GetAllPlayersRequest;
+import spribe.api.tests.MethodNotAllowedTests;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.helpers.ResponsiveMapper;
 
@@ -19,13 +20,18 @@ import java.util.List;
 import static spribe.config.TestGroups.*;
 
 @Log4j2
-public class GetAllPlayersTests extends BasePlayerTest {
+public class GetAllPlayersTests extends BasePlayerTest implements MethodNotAllowedTests {
 
     @Issue("ISSUE-006")
     @Test(groups = {ALL, PLAYER, PLAYER_GET_ALL, POSITIVE, SMOKE})
     public void getAllPlayersSchemaTest() {
         validateSchema(new GetAllPlayersRequest(), null,
                 "json.schemas/player/GetAllPlayersPositiveSchema.json");
+    }
+
+    @Test(groups = {ALL, PLAYER, PLAYER_GET_ALL, NEGATIVE, METHOD_NOT_ALLOWED})
+    public void methodNotAllowedTest() {
+        assertMethodNotAllowed(new GetAllPlayersRequest(), null);
     }
 
     @Test(groups = {ALL, PLAYER, PLAYER_GET_ALL, POSITIVE})

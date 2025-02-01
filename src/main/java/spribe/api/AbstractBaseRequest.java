@@ -7,7 +7,7 @@ import io.restassured.specification.RequestSpecification;
 
 import static spribe.config.EnvironmentConfig.ENV_SERVICE_URL;
 
-public abstract class AbstractBaseRequest implements Request {
+public abstract class AbstractBaseRequest implements Request, RequestWithNotAllowedMethod {
 
     private final String baseUrl;
     private final String endpoint;

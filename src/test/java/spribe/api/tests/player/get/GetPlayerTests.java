@@ -11,13 +11,14 @@ import spribe.api.player.dto.create.PlayerCreateResponseDto;
 import spribe.api.player.dto.get.PlayerGetByPlayerIdRequestDto;
 import spribe.api.player.dto.get.PlayerGetByPlayerIdResponseDto;
 import spribe.api.player.requests.GetPlayerByPlayerIdRequest;
+import spribe.api.tests.MethodNotAllowedTests;
 import spribe.api.tests.player.BasePlayerTest;
 import spribe.helpers.ResponsiveMapper;
 
 import static spribe.config.TestGroups.*;
 
 @Log4j2
-public class GetPlayerTests extends BasePlayerTest {
+public class GetPlayerTests extends BasePlayerTest implements MethodNotAllowedTests {
 
     @Test(groups = {ALL, PLAYER, PLAYER_GET, POSITIVE, SMOKE})
     public void getPlayerByPlayerIdSchemaTest() {
@@ -26,6 +27,14 @@ public class GetPlayerTests extends BasePlayerTest {
                 .playerId(createdPlayer.getId().toString()).build();
         validateSchema(new GetPlayerByPlayerIdRequest(), playerGetByIdRequestDto,
                 "json.schemas/player/GetPlayerByPlayerIdPositiveSchema.json");
+    }
+
+    @Test(groups = {ALL, PLAYER, PLAYER_GET, NEGATIVE, METHOD_NOT_ALLOWED})
+    public void methodNotAllowedTest() {
+        PlayerCreateResponseDto createdPlayer = createPlayer();
+        PlayerGetByPlayerIdRequestDto playerGetByIdRequestDto = PlayerGetByPlayerIdRequestDto.builder()
+                .playerId(createdPlayer.getId().toString()).build();
+        assertMethodNotAllowed(new GetPlayerByPlayerIdRequest(), playerGetByIdRequestDto);
     }
 
     @Test(groups = {ALL, PLAYER, PLAYER_GET, POSITIVE, SMOKE})
