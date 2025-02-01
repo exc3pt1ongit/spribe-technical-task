@@ -154,6 +154,34 @@ This logic allows for more dynamic data management and improved scalability of t
 
 ---
 
+#### GrantedPlayerFetcher
+
+  - This interface is functional and defines a method to get the list of players.
+
+    - `fetch()`:
+      - A method that returns a list of `GrantedPlayer` objects. 
+      - This method can be implemented by different classes that receive data from different sources (for example, from a database, API, or dummy data).
+
+---
+
+#### GrantedPlayerDataSource
+
+  - This interface defines methods for getting data about specific players.
+
+    - `getPlayerByLogin(String login)`:
+      - A method that takes a player's login and returns a `GrantedPlayer` object corresponding to that login. 
+      - This allows you to quickly get information about a specific player.
+      
+    - `getPlayerByRole(PlayerRole role)`:
+      - A method that takes a player role and returns the `GrantedPlayer` object corresponding to that role.
+      - This is useful for getting players with specific access rights.
+      
+    - `getAllPlayers()`:
+      - A method that returns a list of all players. 
+      - This allows you to get a complete list of players for further analysis or testing.
+
+---
+
 ### Listeners and Interceptors
 
 Test framework implements several listeners and interceptors that help with managing test execution, 
@@ -162,6 +190,7 @@ check the availability of services, and configure execution parameters. Let's ta
 ---
 
 #### ResponsiveExecutionListener
+
    - This listener implements the `IExecutionListener` interface and performs actions at the beginning and end of test execution.
 
      - `onExecutionStart()`:
@@ -180,6 +209,7 @@ check the availability of services, and configure execution parameters. Let's ta
 ---
 
 #### ResponsiveSuiteListener
+
    - This listener implements the `ISuiteListener` interface and is responsible for configuring the execution parameters of the test suite.
    
      - `onStart(ISuite suite)`:
@@ -196,8 +226,9 @@ check the availability of services, and configure execution parameters. Let's ta
 ---
 
 #### ResponsiveMethodInterceptor
+
   - This interceptor implements the IMethodInterceptor interface and is responsible for filtering test methods based on groups.
 
     - `intercept(List<IMethodInstance> methods, ITestContext context)`:
-    - Checks which test methods are included or excluded based on the `ENV_INCLUDED_GROUPS` and `ENV_EXCLUDED_GROUPS` configuration parameters.
-    - Returns a list of methods that meet the inclusion and exclusion criteria.
+      - Checks which test methods are included or excluded based on the `ENV_INCLUDED_GROUPS` and `ENV_EXCLUDED_GROUPS` configuration parameters.
+      - Returns a list of methods that meet the inclusion and exclusion criteria.
