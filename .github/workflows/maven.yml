@@ -22,5 +22,25 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Run Go Rest Smoke
+    - name: Cache Maven dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Run API automated Tests
       run: mvn clean test -Denv_parallel=${{ secrets.ENV_PARALLEL }} -Denv_thread_count=${{ secrets.ENV_THREAD_COUNT }} -Denv_included_groups=${{ secrets.ENV_INCLUDED_GROUPS }} -Denv_excluded_groups=${{ secrets.ENV_EXCLUDED_GROUPS }}
+
+    - name: Generate Allure Report
+      run: mvn allure:serve
+
+    - name: Upload Allure Report as an artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: allure-report
+        path: target/site/allure-maven-plugin
+
+    - name: Display Allure Report URL
+      run: echo "Allure report is available in the 'Artifacts' section of this workflow run"
