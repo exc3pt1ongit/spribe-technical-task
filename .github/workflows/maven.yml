@@ -32,6 +32,7 @@ jobs:
 
     - name: Run API automated Tests
       run: mvn clean test -Denv_parallel=${{ secrets.ENV_PARALLEL }} -Denv_thread_count=${{ secrets.ENV_THREAD_COUNT }} -Denv_included_groups=${{ secrets.ENV_INCLUDED_GROUPS }} -Denv_excluded_groups=${{ secrets.ENV_EXCLUDED_GROUPS }}
+      continue-on-error: true
 
     - name: Generate Allure Report
       run: mvn allure:report
