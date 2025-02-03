@@ -10,11 +10,11 @@ on:
 
 jobs:
   tests:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
@@ -34,10 +34,16 @@ jobs:
       run: mvn clean test -Denv_parallel=${{ secrets.ENV_PARALLEL }} -Denv_thread_count=${{ secrets.ENV_THREAD_COUNT }} -Denv_included_groups=${{ secrets.ENV_INCLUDED_GROUPS }} -Denv_excluded_groups=${{ secrets.ENV_EXCLUDED_GROUPS }}
 
     - name: Generate Allure Report
-      run: mvn allure:serve
+      run: mvn allure:report
+
+    - name: Upload Allure Results as an artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-results
+        path: target/allure-results
 
     - name: Upload Allure Report as an artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: allure-report
         path: target/site/allure-maven-plugin
